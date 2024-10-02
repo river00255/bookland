@@ -1,0 +1,15 @@
+.title {
+  border-left: 4px solid #94a3b8;
+  padding-left: 16px;
+  margin: 10px 0 32px 0;
+  p {
+    margin-top: 5px;
+    font-size: 15px;
+  }
+}
+.lists {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}

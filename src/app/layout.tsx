@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import './globals.css';
+import './reset.css';
+import './globals.scss';
+import Header from './_components/Header';
+import QueryProvider from '@/lib/QueryPovider';
+import Footer from './_components/Footer';
 
 const LineSeedKr = localFont({
   src: './fonts/LINESeedKR-Rg.woff',
@@ -18,7 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={LineSeedKr.className}>{children}</body>
+      <body className={LineSeedKr.className}>
+        <QueryProvider>
+          <Header />
+          {children}
+          <Footer />
+        </QueryProvider>
+      </body>
     </html>
   );
 }

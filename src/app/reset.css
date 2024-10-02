@@ -30,6 +30,15 @@
   font-weight: 200;
 }
 
+/* :root {
+  --main-green: '#86efac';
+  --main-green-deep: '#22c55e';
+  --main-green-light: '#dcfce7';
+  --main-slate: '#e2e8f0';
+  --main-slate-deep: '#94a3b8';
+  --main-slate-light: '#f8fafc';
+} */
+
 *,
 *::before,
 *::after {
@@ -39,6 +48,11 @@
 * {
   margin: 0;
   padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 html {
