@@ -1,0 +1,35 @@
+.form {
+  width: 760px;
+  display: flex;
+  justify-content: center;
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    margin: 0 10px 0 0;
+    max-width: 560px;
+  }
+  select,
+  input {
+    border: 1px solid #94a3b8;
+    border-radius: 4px;
+  }
+  select {
+    padding: 7px 16px;
+  }
+  input {
+    padding: 10px;
+    margin: 8px 0 0 0;
+    border-width: 2px;
+    &::placeholder {
+      font-size: 14px;
+      color: #d4d4d4;
+    }
+  }
+  button {
+    padding: 7px 32px;
+    background: #94a3b8;
+    color: #f2f2f2;
+    border-radius: 2px;
+  }
+}

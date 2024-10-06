@@ -8,6 +8,9 @@ const Header = () => {
         <h1>
           <Link href="/">Bookland</Link>
         </h1>
+        <ul>
+          <Link href={'/book/search'}>도서검색</Link>
+        </ul>
       </nav>
     </header>
   );

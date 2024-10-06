@@ -1,0 +1,13 @@
+.form {
+  width: calc(100% - 16px);
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+.list {
+  min-height: 70dvh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,13 +1,14 @@
 'use client';
 import { LibKeys } from '@/app/_service/keys';
 import { getTrend } from '@/app/_service/library';
-import { Books } from '@/app/type';
+import { LibBookItem } from '@/app/type';
 import { useQuery } from '@tanstack/react-query';
 import BookPreview from '../BookPreview';
 import styles from './trend.module.scss';
+import Skeleton from '../Skeleton';
 
 const TrendLists = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: LibKeys.trend,
     queryFn: () => getTrend(),
   });
@@ -20,7 +21,8 @@ const TrendLists = () => {
         <p>기준일: {data?.results[1].result.date}</p>
       </div>
       <div className={styles.lists}>
-        {data?.results[1].result.docs.map((item: { doc: Books }) => (
+        {isLoading && <Skeleton />}
+        {data?.results[1].result.docs.map((item: { doc: LibBookItem }) => (
           <BookPreview key={item.doc.isbn13} item={item.doc} />
         ))}
       </div>
