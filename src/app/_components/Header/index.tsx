@@ -9,7 +9,12 @@ const Header = () => {
           <Link href="/">Bookland</Link>
         </h1>
         <ul>
-          <Link href={'/book/search'}>도서검색</Link>
+          <li>
+            <Link href={'/book/search'}>도서검색</Link>
+          </li>
+          <li>
+            <Link href={'/library'}>도서관목록</Link>
+          </li>
         </ul>
       </nav>
     </header>

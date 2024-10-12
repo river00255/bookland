@@ -13,7 +13,10 @@ export const fetcher = async (method: Method, url: string, body?: { [key: string
   try {
     if (method !== 'GET' && body) mutate(method, url, body);
     const response = await fetch(url, {
-      method,
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     if (!response.ok) throw new Error();
     return await response.json();

@@ -87,8 +87,8 @@ dd {
   margin-block-end: 0;
 }
 
-ul[role='list'],
-ol[role='list'] {
+ul,
+ol {
   list-style: none;
 }
 
@@ -138,6 +138,7 @@ select {
 
 button {
   border: none;
+  background-color: transparent;
 }
 
 textarea:not([rows]) {

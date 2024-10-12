@@ -5,4 +5,9 @@ const getTrend = async () => {
   return res.response;
 };
 
-export { getTrend };
+const getLibrarys = async ({ page, region }: { page: number; region: number }) => {
+  const res = await fetcher('GET', `/api/library?region=${region}&page=${page}`);
+  return res.response;
+};
+
+export { getTrend, getLibrarys };

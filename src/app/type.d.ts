@@ -39,3 +39,17 @@ export type ItemSearch = {
   startIndex: number;
   [key: string]: any;
 };
+
+export type Lib = {
+  libName: string;
+  libCode: string;
+  homepage: string;
+  address: string;
+  tel: string;
+  operatingTime: string;
+  closed: string;
+  BookCount: number;
+  latitude: number;
+  longitude: number;
+  fax: string;
+};

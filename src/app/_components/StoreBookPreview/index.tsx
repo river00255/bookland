@@ -12,9 +12,11 @@ const StoreBookPreview = ({ item }: { item: StoreBookItem }) => {
         <span>
           <p>{item.author}</p>
         </span>
-        <p>
-          <strong>{item.title}</strong>
-        </p>
+        <div>
+          <p>
+            <strong>{item.title}</strong>
+          </p>
+        </div>
       </div>
     </div>
   );

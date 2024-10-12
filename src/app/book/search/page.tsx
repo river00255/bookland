@@ -8,9 +8,12 @@ import { searchBooks } from '@/app/_service/bookstore';
 import { useState } from 'react';
 import { StoreBookItem } from '@/app/type';
 import StoreBookPreview from '@/app/_components/StoreBookPreview';
+import Pagiantion from '@/app/_components/Pagination';
 
 const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageBlock, setCurrentPageBlock] = useState(0);
+  const pageLimit = 10;
 
   const searchParams = useSearchParams();
   const query = searchParams.get('query');
@@ -28,10 +31,26 @@ const Search = () => {
       <div className={styles.form}>
         <SearchForm />
       </div>
+      {data && <p>{data.totalResults}건의 검색 결과</p>}
       <div className={styles.list}>
-        {data?.totalResults < 1 && <span>검색 결과가 없습니다.</span>}
-        {data?.item.map((book: StoreBookItem) => <StoreBookPreview key={book.isbn13} item={book} />)}
+        {data &&
+          (data.totalResults < 1 ? (
+            <span>검색 결과가 없습니다.</span>
+          ) : (
+            data.item.map((book: StoreBookItem) => <StoreBookPreview key={book.isbn13} item={book} />)
+          ))}
+        {}
       </div>
+      {data && (
+        <Pagiantion
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          currentPageBlock={currentPageBlock}
+          setCurrentPageBlock={setCurrentPageBlock}
+          totalPage={Math.ceil(data.totalResults / pageLimit)}
+          pageLimit={pageLimit}
+        />
+      )}
     </div>
   );
 };
