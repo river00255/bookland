@@ -10,4 +10,10 @@ const getLibrarys = async ({ page, region }: { page: number; region: number }) =
   return res.response;
 };
 
-export { getTrend, getLibrarys };
+const getLibraryDetail = async ({ libCode }: { libCode: string }) => {
+  const res = await fetcher('GET', `api/library/extends?libCode=${libCode}`);
+  console.log(res);
+  return res.response;
+};
+
+export { getTrend, getLibrarys, getLibraryDetail };

@@ -8,4 +8,8 @@ const searchBooks = async ({ query, type, page }: { query: string; type: string;
   return await fetcher('GET', `/api/bookstore/search?query=${query}&type=${type}&page=${page}`);
 };
 
-export { getBestseller, searchBooks };
+const getBookDetail = async ({ isbn }: { isbn: string }) => {
+  return await fetcher('GET', `/api/bookstore/book/${isbn}`);
+};
+
+export { getBestseller, searchBooks, getBookDetail };

@@ -5,6 +5,7 @@ import './globals.scss';
 import Header from './_components/Header';
 import QueryProvider from '@/lib/QueryPovider';
 import Footer from './_components/Footer';
+import Script from 'next/script';
 
 const LineSeedKr = localFont({
   src: './fonts/LINESeedKR-Rg.woff',
@@ -29,6 +30,10 @@ export default function RootLayout({
           <Footer />
         </QueryProvider>
       </body>
+      <Script
+        type="text/javascript"
+        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
+      />
     </html>
   );
 }

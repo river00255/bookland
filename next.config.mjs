@@ -14,6 +14,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'bookthumb-phinf.pstatic.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
