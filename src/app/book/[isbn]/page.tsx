@@ -16,7 +16,11 @@ const Book = () => {
   });
   // console.log(data);
 
-  return <div className="container">{data && <BookDetail item={data.item[0]} />}</div>;
+  return (
+    <div className="container">
+      {data && <BookDetail item={data.item[0]} />}
+    </div>
+  );
 };
 
 export default Book;

@@ -15,19 +15,19 @@ export default async function Home() {
     queryFn: () => getTrend(),
   });
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: StoreKeys.best,
-  //   queryFn: () => getBestseller(),
-  // });
+  await queryClient.prefetchQuery({
+    queryKey: StoreKeys.best,
+    queryFn: () => getBestseller(),
+  });
 
   return (
     <div className={`container ${styles.main}`}>
       <Suspense fallback={<div>Loading...</div>}>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <TrendLists />
+          <Bestseller />
         </HydrationBoundary>
       </Suspense>
-      <Bestseller />
     </div>
   );
 }

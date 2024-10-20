@@ -1,6 +1,7 @@
 import { StoreBookItem } from '@/app/type';
 import Image from 'next/image';
 import styles from './detail.module.scss';
+import { decode } from 'html-entities';
 
 const BookDetail = ({ item }: { item: StoreBookItem }) => {
   return (
@@ -12,8 +13,14 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
         <div className={styles.title}>
           <p>{item.categoryName}</p>
           <h4>{item.title}</h4>
-          <p>{item.description}</p>
+          <p>{decode(item.description)}</p>
         </div>
+      </div>
+      <div className={styles.moreInfo}>
+        {item.subInfo.cardReviewImgList &&
+          item.subInfo.cardReviewImgList.map((card, i) => (
+            <Image src={card} alt={String(i)} width={400} height={400} key={i} />
+          ))}
       </div>
     </div>
   );

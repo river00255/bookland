@@ -27,7 +27,27 @@ export type StoreBookItem = {
   priceSales: number;
   priceStandard: number;
   cover: string;
+  subInfo: StoreBookSubInfo;
   [key: string]: any;
+};
+
+type StoreBookSubInfo = {
+  itemPage: number;
+  originalTitle: string;
+  subTitle: string;
+  ebbokList: {
+    isbn: string;
+    isbn13: string;
+    itemId: string;
+    link: string;
+  }[];
+  cardReviewImgList?: string[];
+  ratingInfo: {
+    commentReviewCount: number;
+    myReviewCoung: number;
+    ratingCount: number;
+    ratingScore: number;
+  };
 };
 
 export type ItemSearch = {

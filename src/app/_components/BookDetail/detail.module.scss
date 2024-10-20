@@ -1,10 +1,10 @@
 .detail {
-}
-.intro {
   max-width: 760px;
   min-height: 70dvh;
   margin: 0 auto;
   padding: 48px 16px;
+}
+.intro {
   display: flex;
 }
 .image {
@@ -17,4 +17,10 @@
   }
 }
 .info {
+}
+.moreInfo {
+  width: 100%;
+  margin: 32px 0 16px 0;
+  display: flex;
+  overflow-x: scroll;
 }
