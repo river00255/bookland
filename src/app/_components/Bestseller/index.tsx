@@ -21,7 +21,9 @@ const Bestseller = () => {
       </div>
       <div className={styles.lists}>
         {isLoading && <Skeleton />}
-        {data?.item.map((item: StoreBookItem) => <StoreBookPreview key={item.isbn13} item={item} />)}
+        {data?.item.map((item: StoreBookItem) => (
+          <StoreBookPreview key={item.isbn13} item={item} />
+        ))}
       </div>
     </div>
   );

@@ -1,4 +1,8 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 import Bestseller from './_components/Bestseller';
 import TrendLists from './_components/TrendLists';
 import styles from './home.module.scss';
@@ -15,17 +19,17 @@ export default async function Home() {
     queryFn: () => getTrend(),
   });
 
-  await queryClient.prefetchQuery({
-    queryKey: StoreKeys.best,
-    queryFn: () => getBestseller(),
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: StoreKeys.best,
+  //   queryFn: () => getBestseller(),
+  // });
 
   return (
     <div className={`container ${styles.main}`}>
+      <Bestseller />
       <Suspense fallback={<div>Loading...</div>}>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <TrendLists />
-          <Bestseller />
         </HydrationBoundary>
       </Suspense>
     </div>

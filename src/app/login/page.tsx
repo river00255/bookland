@@ -1,6 +1,7 @@
 'use client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './login.module.scss';
+import { signIn } from 'next-auth/react';
 
 type Inputs = {
   email: string;
@@ -32,13 +33,21 @@ const Login = () => {
         <label>비밀번호</label>
         <input
           type="password"
-          {...register('password', { pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,18}$/ })}
+          {...register('password', {
+            pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,18}$/,
+          })}
           placeholder="비밀번호를 입력해주세요."
         />
-        <label>비밀번호</label>
-        <input type="password" />
         <button>로그인</button>
       </form>
+      <div>
+        <button
+          onClick={() =>
+            signIn('google', { callbackUrl: 'http://localhost:3000' })
+          }>
+          Google로 로그인
+        </button>
+      </div>
     </div>
   );
 };

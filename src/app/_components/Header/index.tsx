@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './header.module.scss';
+import Account from '../Account';
 
 const Header = () => {
   return (
@@ -18,11 +19,7 @@ const Header = () => {
             </li>
           </ul>
         </div>
-        <ul>
-          <li>
-            <button>로그인 / 가입</button>
-          </li>
-        </ul>
+        <Account />
       </nav>
     </header>
   );

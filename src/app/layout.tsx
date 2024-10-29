@@ -6,6 +6,7 @@ import Header from './_components/Header';
 import QueryProvider from '@/lib/QueryPovider';
 import Footer from './_components/Footer';
 import Script from 'next/script';
+import AuthProvider from './_components/AuthProvider';
 
 const LineSeedKr = localFont({
   src: './fonts/LINESeedKR-Rg.woff',
@@ -24,11 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={LineSeedKr.className}>
-        <QueryProvider>
-          <Header />
-          {children}
-          <Footer />
-        </QueryProvider>
+        <AuthProvider>
+          <QueryProvider>
+            <Header />
+            {children}
+            <Footer />
+          </QueryProvider>
+        </AuthProvider>
       </body>
       <Script
         type="text/javascript"
