@@ -13,13 +13,17 @@ import Modal from '../Modal';
 import ModalRoot from '../Modal/ModalRoot';
 import LibraryDetail from '../LibraryDetail';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+
+const pageSize = 20;
+const pageableCount = 10;
 
 const LibraryLists = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageBlock, setCurrentPageBlock] = useState(0);
   const [region, setRegion] = useState(11);
-  const pageSize = 20;
-  const pageableCount = 10;
+
+  const { data: session } = useSession();
 
   const { popup, openModal, closeModal } = useModal();
   const router = useRouter();
@@ -28,7 +32,6 @@ const LibraryLists = () => {
     queryKey: LibKeys.libs(region, currentPage),
     queryFn: () => getLibrarys({ page: currentPage, region }),
   });
-  // console.log(data);
 
   return (
     <div>
@@ -42,7 +45,10 @@ const LibraryLists = () => {
             setCurrentPageBlock(0);
           }}>
           {regions.map((region) => (
-            <option key={region.code} value={region.code} defaultValue={String(region)}>
+            <option
+              key={region.code}
+              value={region.code}
+              defaultValue={String(region)}>
               {region.name}
             </option>
           ))}
@@ -61,7 +67,7 @@ const LibraryLists = () => {
                 </p>
               </span>
               <p>{item.lib.address}</p>
-              <button>+</button>
+              {session && <button>+</button>}
             </div>
           </Link>
         ))}
@@ -77,7 +83,10 @@ const LibraryLists = () => {
         />
       )}
       {popup && (
-        <Modal isOpen={popup} close={() => closeModal()} reset={() => router.back()}>
+        <Modal
+          isOpen={popup}
+          close={() => closeModal()}
+          reset={() => router.back()}>
           <LibraryDetail />
         </Modal>
       )}

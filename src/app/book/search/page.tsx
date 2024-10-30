@@ -10,10 +10,11 @@ import { StoreBookItem } from '@/app/type';
 import StoreBookPreview from '@/app/_components/StoreBookPreview';
 import Pagiantion from '@/app/_components/Pagination';
 
+const pageLimit = 10;
+
 const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageBlock, setCurrentPageBlock] = useState(0);
-  const pageLimit = 10;
 
   const searchParams = useSearchParams();
   const query = searchParams.get('query');
@@ -21,10 +22,14 @@ const Search = () => {
 
   const { data } = useQuery({
     queryKey: StoreKeys.search(String(type), String(query), currentPage),
-    queryFn: () => searchBooks({ query: decodeURIComponent(String(query)), type: String(type), page: currentPage }),
+    queryFn: () =>
+      searchBooks({
+        query: decodeURIComponent(String(query)),
+        type: String(type),
+        page: currentPage,
+      }),
     enabled: !!query && !!type,
   });
-  // console.log(data);
 
   return (
     <div className="container">
@@ -37,7 +42,9 @@ const Search = () => {
           (data.totalResults < 1 ? (
             <span>검색 결과가 없습니다.</span>
           ) : (
-            data.item.map((book: StoreBookItem) => <StoreBookPreview key={book.isbn13} item={book} />)
+            data.item.map((book: StoreBookItem) => (
+              <StoreBookPreview key={book.isbn13} item={book} />
+            ))
           ))}
         {}
       </div>

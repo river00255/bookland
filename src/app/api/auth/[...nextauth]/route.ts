@@ -1,3 +1,4 @@
+import prisma from '@/lib/prisma';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -9,17 +10,33 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  // callbacks: {
-  // async signIn({ user, account, profile, email, credentials }: any) {
-  //   if (account.provider === 'google') {
-  //     console.log(credentials);
-  //   }
-  //   return true;
-  // },
-  // async session({ session, user, token }) {
-  //   return session;
-  // },
-  // },
+  callbacks: {
+    async signIn({ user, account }: any) {
+      if (!user) throw new Error('SignIn Error');
+
+      const findUser = await prisma.user.findUnique({
+        where: {
+          email: user.email,
+        },
+      });
+
+      if (!findUser) {
+        const newUser = await prisma.user.create({
+          data: {
+            email: user.email,
+            provider: account.provider,
+          },
+        });
+      }
+      // if (account.provider === 'google') {
+      //   console.log(credentials);
+      // }
+      return true;
+    },
+    // async session({ session, user, token }) {
+    //   return session;
+    // },
+  },
 };
 
 const handler = NextAuth(authOptions);

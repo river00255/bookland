@@ -12,7 +12,6 @@ const Bestseller = () => {
     queryKey: StoreKeys.best,
     queryFn: () => getBestseller(),
   });
-  // console.log(data);
 
   return (
     <div>
@@ -21,9 +20,10 @@ const Bestseller = () => {
       </div>
       <div className={styles.lists}>
         {isLoading && <Skeleton />}
-        {data?.item.map((item: StoreBookItem) => (
-          <StoreBookPreview key={item.isbn13} item={item} />
-        ))}
+        {data &&
+          data.item.map((item: StoreBookItem) => (
+            <StoreBookPreview key={item.isbn13} item={item} />
+          ))}
       </div>
     </div>
   );

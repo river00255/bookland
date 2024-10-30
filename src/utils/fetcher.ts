@@ -1,6 +1,10 @@
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const mutate = async (method: Method, url: string, body: { [key: string]: any }) => {
+const mutate = async (
+  method: Method,
+  url: string,
+  body: { [key: string]: any }
+) => {
   const response = await fetch(url, {
     method,
     body: JSON.stringify(body),
@@ -9,9 +13,14 @@ const mutate = async (method: Method, url: string, body: { [key: string]: any })
   return await response.json();
 };
 
-export const fetcher = async (method: Method, url: string, body?: { [key: string]: any }) => {
+export const fetcher = async (
+  method: Method,
+  url: string,
+  body?: { [key: string]: any }
+) => {
   try {
     if (method !== 'GET' && body) mutate(method, url, body);
+
     const response = await fetch(url, {
       method: method,
       headers: {

@@ -23,7 +23,6 @@ const SearchForm = () => {
     if (!inputRef.current || inputRef.current.value.trim().length < 1) return;
     const inputValue = inputRef.current.value.trim().replaceAll(' ', '+');
     searching(inputValue, type);
-    // console.log(type, inputValue);
   };
 
   return (

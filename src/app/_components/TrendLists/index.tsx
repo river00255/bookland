@@ -12,19 +12,19 @@ const TrendLists = () => {
     queryKey: LibKeys.trend,
     queryFn: () => getTrend(),
   });
-  // console.log(data?.results[1]);
 
   return (
     <div>
       <div className={styles.title}>
         <h3>대출 급상승 도서</h3>
-        <p>기준일: {data?.results[1].result.date}</p>
+        <p>기준일: {data && data.results[1].result.date}</p>
       </div>
       <div className={styles.lists}>
         {isLoading && <Skeleton />}
-        {data?.results[1].result.docs.map((item: { doc: LibBookItem }) => (
-          <BookPreview key={item.doc.isbn13} item={item.doc} />
-        ))}
+        {data &&
+          data.results[1].result.docs.map((item: { doc: LibBookItem }) => (
+            <BookPreview key={item.doc.isbn13} item={item.doc} />
+          ))}
       </div>
     </div>
   );
