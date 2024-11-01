@@ -73,3 +73,18 @@ export type Lib = {
   longitude: number;
   fax: string;
 };
+
+export type FavoriteLib = {
+  name: string;
+  code: string;
+  region: number;
+  userId: string;
+};
+
+export type FavoriteBook = {
+  name: string;
+  isbn: string;
+  author: string;
+  publisher: string;
+  userId: string;
+};

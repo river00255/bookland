@@ -1,0 +1,14 @@
+.item {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  border-bottom: 2px solid #94a3b8;
+  padding: 4px 5px;
+  span {
+    flex: 2;
+  }
+  button {
+    padding: 2px;
+    margin: 0 0 0 20px;
+  }
+}

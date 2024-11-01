@@ -15,7 +15,10 @@ export const GET = async () => {
       },
     }
   );
-  if (!response.ok) return new Response('Not found', { status: 404 });
+  if (!response.ok)
+    return new Response(JSON.stringify({ message: 'Not found' }), {
+      status: 404,
+    });
   const data = await response.json();
   return Response.json(data);
 };

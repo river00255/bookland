@@ -12,7 +12,11 @@ export const POST = async (request: Request) => {
       },
     });
 
-    if (prev) return new Response(`${json.code} exist.`, { status: 500 });
+    if (prev)
+      return new Response(
+        JSON.stringify({ message: `Library ${json.code} exist.` }),
+        { status: 500 }
+      );
 
     const lib = await prisma.library.create({
       data: json,
@@ -21,7 +25,9 @@ export const POST = async (request: Request) => {
     return Response.json(json);
   } catch (e) {
     console.error(e);
-    return new Response('Add Library Failed.', { status: 500 });
+    return new Response(JSON.stringify({ message: 'Add Library Failed.' }), {
+      status: 500,
+    });
   }
 };
 
@@ -30,7 +36,10 @@ export const GET = async (request: NextRequest) => {
   const user = searchParams.get('user');
   const code = searchParams.get('code');
 
-  if (!user || !code) return new Response(`Not found.`, { status: 404 });
+  if (!user || !code)
+    return new Response(JSON.stringify({ message: `Not found.` }), {
+      status: 404,
+    });
 
   const libs = await prisma.library.findMany({
     where: {
@@ -42,13 +51,16 @@ export const GET = async (request: NextRequest) => {
   return Response.json(libs);
 };
 
-export const DELETE = async (request: Request) => {
+export const DELETE = async (request: NextRequest) => {
   try {
-    const url = new URL(request.url);
-    const user = url.searchParams.get('user');
-    const code = url.searchParams.get('code');
+    const searchParams = request.nextUrl.searchParams;
+    const user = searchParams.get('user');
+    const code = searchParams.get('code');
 
-    if (!user || !code) return new Response(`Not found.`, { status: 404 });
+    if (!user || !code)
+      return new Response(JSON.stringify({ message: `Not found.` }), {
+        status: 404,
+      });
 
     await prisma.library.deleteMany({
       where: {
@@ -57,9 +69,14 @@ export const DELETE = async (request: Request) => {
       },
     });
 
-    return new Response(`Lib ${code} delete.`, { status: 200 });
+    return new Response(
+      JSON.stringify({ message: `Library ${code} delete.` }),
+      { status: 200 }
+    );
   } catch (e) {
     console.error(e);
-    return new Response('Delete Library Failed.', { status: 500 });
+    return new Response(JSON.stringify({ message: 'Delete Library Failed.' }), {
+      status: 500,
+    });
   }
 };

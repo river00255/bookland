@@ -5,7 +5,10 @@ export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
   const email = searchParams.get('user');
 
-  if (!email) return new Response(`Not found.`, { status: 404 });
+  if (!email)
+    return new Response(JSON.stringify({ message: `Not found.` }), {
+      status: 404,
+    });
 
   const user = await prisma.user.findUnique({
     where: {
@@ -13,7 +16,11 @@ export const GET = async (request: NextRequest) => {
     },
   });
 
-  if (!user) return new Response(`Not found user : ${email}.`, { status: 404 });
+  if (!user)
+    return new Response(
+      JSON.stringify({ message: `Not found user : ${email}.` }),
+      { status: 404 }
+    );
 
   const books = await prisma.book.findMany({
     where: {

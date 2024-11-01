@@ -21,8 +21,21 @@ const getLibrarys = async ({
 
 const getLibraryDetail = async ({ libCode }: { libCode: string }) => {
   const res = await fetcher('GET', `../api/library/extends?libCode=${libCode}`);
-  console.log(res);
   return res.response;
 };
 
-export { getTrend, getLibrarys, getLibraryDetail };
+const getLoanStatus = async ({
+  libCode,
+  isbn,
+}: {
+  libCode: string;
+  isbn: string;
+}) => {
+  const res = await fetcher(
+    'GET',
+    `../api/library/loan?libCode=${libCode}&isbn=${isbn}`
+  );
+  return res.response;
+};
+
+export { getTrend, getLibrarys, getLibraryDetail, getLoanStatus };

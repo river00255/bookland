@@ -12,6 +12,7 @@ const LibraryDetail = () => {
   const searchParams = useSearchParams();
 
   const [lib, setLib] = useState<Lib | undefined>();
+  // console.log(lib);
 
   // console.log(JSON.parse(decodeURIComponent(String(searchParams.get('q')))));
 
@@ -44,7 +45,12 @@ const LibraryDetail = () => {
         <p>운영시간: {lib.operatingTime}</p>
         <p>주소: {lib.address}</p>
       </div>
-      <Map lat={lib.latitude} lng={lib.longitude} width={'320px'} height={'320px'} />
+      <Map
+        lat={lib.latitude}
+        lng={lib.longitude}
+        width={'320px'}
+        height={'320px'}
+      />
     </div>
   );
 };

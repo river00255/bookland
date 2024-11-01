@@ -14,6 +14,7 @@ import ModalRoot from '../Modal/ModalRoot';
 import LibraryDetail from '../LibraryDetail';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import LibraryPreview from '../LibraryPreview';
 
 const pageSize = 20;
 const pageableCount = 10;
@@ -25,8 +26,8 @@ const LibraryLists = () => {
 
   const { data: session } = useSession();
 
-  const { popup, openModal, closeModal } = useModal();
-  const router = useRouter();
+  // const { popup, closeModal } = useModal();
+  // const router = useRouter();
 
   const { data } = useQuery({
     queryKey: LibKeys.libs(region, currentPage),
@@ -55,22 +56,29 @@ const LibraryLists = () => {
         </select>
       </div>
       <div className={styles.lists}>
-        {data?.libs.map((item: { lib: Lib }) => (
-          <Link
-            href={`/library?libCode=${item.lib.libCode}&q=${encodeURIComponent(encodeURIComponent(JSON.stringify(item.lib)))}`}
-            key={item.lib.libCode}
-            onClick={() => openModal()}>
-            <div className={styles.libItem}>
-              <span>
-                <p>
-                  <strong>{item.lib.libName}</strong>
-                </p>
-              </span>
-              <p>{item.lib.address}</p>
-              {session && <button>+</button>}
-            </div>
-          </Link>
-        ))}
+        {data &&
+          data.libs.map((item: { lib: Lib }) => (
+            <LibraryPreview
+              lib={item.lib}
+              session={session}
+              region={region}
+              key={item.lib.libCode}
+            />
+            // <Link
+            //   href={`/library?libCode=${item.lib.libCode}&q=${encodeURIComponent(encodeURIComponent(JSON.stringify(item.lib)))}`}
+            //   key={item.lib.libCode}
+            //   onClick={() => openModal()}>
+            //   <div className={styles.libItem}>
+            //     <span>
+            //       <p>
+            //         <strong>{item.lib.libName}</strong>
+            //       </p>
+            //     </span>
+            //     <p>{item.lib.address}</p>
+            //     {session && <button>+</button>}
+            //   </div>
+            // </Link>
+          ))}
       </div>
       {data && (
         <Pagiantion
@@ -82,14 +90,14 @@ const LibraryLists = () => {
           totalPage={Math.ceil(data.numFound / pageSize)}
         />
       )}
-      {popup && (
+      {/* {popup && (
         <Modal
           isOpen={popup}
           close={() => closeModal()}
           reset={() => router.back()}>
           <LibraryDetail />
         </Modal>
-      )}
+      )} */}
       <ModalRoot />
     </div>
   );

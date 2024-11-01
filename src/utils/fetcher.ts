@@ -19,7 +19,10 @@ export const fetcher = async (
   body?: { [key: string]: any }
 ) => {
   try {
-    if (method !== 'GET' && body) mutate(method, url, body);
+    if (method !== 'GET' && body) {
+      const response = await mutate(method, url, body);
+      return response;
+    }
 
     const response = await fetch(url, {
       method: method,
