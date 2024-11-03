@@ -3,13 +3,17 @@ import { useQuery } from '@tanstack/react-query';
 import { BookmarkKeys } from '../_service/keys';
 import { getBookmarkList } from '../_service/bookmark';
 import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FavoriteBook, FavoriteLib } from '../type';
 import styles from './mypage.module.scss';
+import FavoriteLibrary from '../_components/FavoriteLibrary';
+import Link from 'next/link';
 
 const MyPage = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const email = session?.user?.email;
+
+  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: BookmarkKeys.list(String(email)),
@@ -18,6 +22,13 @@ const MyPage = () => {
   });
   // console.log(data);
 
+  if (status === 'loading') return <div className="container">Loading...</div>;
+  if (status === 'unauthenticated')
+    return (
+      <div className="container">
+        <button onClick={() => router.replace('/')}>Go Home</button>
+      </div>
+    );
   return (
     <div className={`container ${styles.mypage}`}>
       <p>{session?.user?.email} 님</p>
@@ -29,9 +40,12 @@ const MyPage = () => {
           </div>
         ) : (
           data?.bookmark?.lib?.map((item: FavoriteLib) => (
-            <div key={item.code}>
-              <p>{item.name}</p>
-            </div>
+            <FavoriteLibrary
+              item={item}
+              libs={data.bookmark.lib}
+              userId={String(session?.user?.email)}
+              key={item.code}
+            />
           ))
         )}
       </div>
@@ -43,9 +57,11 @@ const MyPage = () => {
           </div>
         ) : (
           data?.bookmark?.book?.map((item: FavoriteBook) => (
-            <div key={item.isbn}>
-              <p>{item.name}</p>
-            </div>
+            <Link href={`../book/${item.isbn}`} key={item.isbn}>
+              <div>
+                <p>{item.name}</p>
+              </div>
+            </Link>
           ))
         )}
       </div>

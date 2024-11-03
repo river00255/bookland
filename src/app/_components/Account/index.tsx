@@ -4,9 +4,9 @@ import styles from './account.module.scss';
 import { signOut, useSession } from 'next-auth/react';
 
 const Account = () => {
-  const { data: session } = useSession();
-  // console.log(session);
+  const { data: session, status } = useSession();
 
+  if (status === 'loading') return null;
   return (
     <ul className={styles.account}>
       <li>

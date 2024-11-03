@@ -1,0 +1,23 @@
+.detail {
+  max-width: 760px;
+  min-height: 70dvh;
+  margin: 0 auto;
+  padding: 56px 16px;
+}
+.text {
+  margin: 0 0 16px 0;
+  h4 {
+    margin: 0 0 24px 0;
+    font-size: 20px;
+  }
+  p {
+    margin: 4px 0;
+    font-size: 15px;
+  }
+}
+.location {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

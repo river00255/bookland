@@ -1,20 +1,19 @@
 'use client';
-import { LibKeys } from '@/app/_service/keys';
+import { BookmarkKeys, LibKeys } from '@/app/_service/keys';
 import { getLibrarys } from '@/app/_service/library';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styles from './libList.module.scss';
-import { Lib } from '@/app/type';
+import { FavoriteLib, Lib } from '@/app/type';
 import { regions } from '@/utils';
 import Pagiantion from '../Pagination';
-import Link from 'next/link';
 import useModal from '@/app/_hooks/useModal';
 import Modal from '../Modal';
 import ModalRoot from '../Modal/ModalRoot';
-import LibraryDetail from '../LibraryDetail';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import LibraryPreview from '../LibraryPreview';
+import { getFavoriteLibList } from '@/app/_service/bookmark';
+import FavoriteLibrary from '../FavoriteLibrary';
 
 const pageSize = 20;
 const pageableCount = 10;
@@ -26,18 +25,29 @@ const LibraryLists = () => {
 
   const { data: session } = useSession();
 
-  // const { popup, closeModal } = useModal();
-  // const router = useRouter();
+  const { popup, openModal, closeModal } = useModal();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: LibKeys.libs(region, currentPage),
     queryFn: () => getLibrarys({ page: currentPage, region }),
   });
+
+  const { data: favoriteLibs } = useQuery({
+    queryKey: BookmarkKeys.libList(String(session?.user?.email)),
+    queryFn: () => getFavoriteLibList(String(session?.user?.email)),
+    enabled: !!session,
+  });
+  // console.log(favoriteLibs);
 
   return (
     <div>
       <div className={styles.title}>
         <h3>도서관 목록</h3>
+        {session && (
+          <button onClick={() => openModal()} className={styles.myList}>
+            나의 도서관
+          </button>
+        )}
         {data && <p>{data.numFound} 곳</p>}
         <select
           onChange={(e) => {
@@ -56,6 +66,7 @@ const LibraryLists = () => {
         </select>
       </div>
       <div className={styles.lists}>
+        {isLoading && <div>Loading...</div>}
         {data &&
           data.libs.map((item: { lib: Lib }) => (
             <LibraryPreview
@@ -64,20 +75,6 @@ const LibraryLists = () => {
               region={region}
               key={item.lib.libCode}
             />
-            // <Link
-            //   href={`/library?libCode=${item.lib.libCode}&q=${encodeURIComponent(encodeURIComponent(JSON.stringify(item.lib)))}`}
-            //   key={item.lib.libCode}
-            //   onClick={() => openModal()}>
-            //   <div className={styles.libItem}>
-            //     <span>
-            //       <p>
-            //         <strong>{item.lib.libName}</strong>
-            //       </p>
-            //     </span>
-            //     <p>{item.lib.address}</p>
-            //     {session && <button>+</button>}
-            //   </div>
-            // </Link>
           ))}
       </div>
       {data && (
@@ -90,14 +87,20 @@ const LibraryLists = () => {
           totalPage={Math.ceil(data.numFound / pageSize)}
         />
       )}
-      {/* {popup && (
-        <Modal
-          isOpen={popup}
-          close={() => closeModal()}
-          reset={() => router.back()}>
-          <LibraryDetail />
+      {popup && (
+        <Modal isOpen={popup} close={() => closeModal()}>
+          {session &&
+            favoriteLibs &&
+            favoriteLibs.map((item: FavoriteLib) => (
+              <FavoriteLibrary
+                item={item}
+                libs={favoriteLibs}
+                userId={String(session.user?.email)}
+                key={item.code}
+              />
+            ))}
         </Modal>
-      )} */}
+      )}
       <ModalRoot />
     </div>
   );

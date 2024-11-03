@@ -8,7 +8,7 @@ export const POST = async (request: Request) => {
     const prev = await prisma.book.findFirst({
       where: {
         userId: json.userId,
-        isbn: json.code,
+        isbn: json.isbn,
       },
     });
 
