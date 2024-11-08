@@ -13,6 +13,7 @@ model User {
   createdAt DateTime @default(now())
   book      Book[]
   library   Library[]
+  review    Review[]
 }
 
 model Book {
@@ -32,4 +33,18 @@ model Library {
   region    Int
   user      User     @relation(fields: [userId], references: [email])
   userId    String
+}
+
+model Review {
+  id          Int         @id @default(autoincrement())
+  isbn        String
+  title       String  
+  author      String
+  publisher   String?
+  review      String?
+  user        User        @relation(fields: [userId], references: [email])
+  userId      String
+  public      Boolean
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?
 }

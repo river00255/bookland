@@ -1,0 +1,23 @@
+.form {
+  padding: 40px 32px;
+  color: #737373;
+  > span {
+    display: flex;
+    align-items: baseline;
+    max-width: 70%;
+    margin: 5px 0 16px 0;
+    padding: 0 16px;
+    label {
+      margin: 0 20px 0 0;
+    }
+    input {
+      border: none;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 5px;
+      flex: 2;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

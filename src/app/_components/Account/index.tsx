@@ -9,15 +9,22 @@ const Account = () => {
   if (status === 'loading') return null;
   return (
     <ul className={styles.account}>
-      <li>
-        {session ? (
-          <button onClick={() => signOut()}>로그아웃</button>
-        ) : (
+      {session ? (
+        <>
+          <li>
+            <Link href={'../mypage'}>마이페이지</Link>
+          </li>
+          <li>
+            <button onClick={() => signOut()}>로그아웃</button>
+          </li>
+        </>
+      ) : (
+        <li>
           <Link href={'../login'}>
             <button>로그인 / 가입</button>
           </Link>
-        )}
-      </li>
+        </li>
+      )}
     </ul>
   );
 };

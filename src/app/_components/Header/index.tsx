@@ -17,6 +17,9 @@ const Header = () => {
             <li>
               <Link href={'/library'}>도서관목록</Link>
             </li>
+            <li>
+              <Link href={'/review'}>독자후기</Link>
+            </li>
           </ul>
         </div>
         <Account />

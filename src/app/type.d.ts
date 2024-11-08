@@ -88,3 +88,16 @@ export type FavoriteBook = {
   publisher: string;
   userId: string;
 };
+
+export type BookReview = {
+  id: string;
+  isbn: string;
+  title: string;
+  author: string;
+  publisher: string;
+  review: string;
+  userId: string;
+  public: boolean;
+  createdAt: Date;
+  updatedAt?: Date;
+};
