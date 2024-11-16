@@ -60,24 +60,18 @@ export const DELETE = async (
     const id = Number(params.id);
     const data = await request.json();
 
-    const prevReview = await prisma.review.findUnique({
+    const deletedReview = await prisma.review.delete({
       where: {
         id,
         userId: data.userId,
       },
     });
 
-    if (!prevReview)
+    if (!deletedReview)
       return new Response(
-        JSON.stringify({ message: `Not Found review ${params.id}.` }),
+        JSON.stringify({ message: `${params.id} review delete failed.` }),
         { status: 404 }
       );
-
-    await prisma.review.delete({
-      where: {
-        id,
-      },
-    });
 
     return new Response(id.toString(), { status: 200 });
   } catch (e) {

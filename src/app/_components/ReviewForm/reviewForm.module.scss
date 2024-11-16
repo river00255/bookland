@@ -21,3 +21,23 @@
     }
   }
 }
+.buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px 0;
+  > input[type='checkbox'] {
+    margin: 0 4px;
+  }
+  > button {
+    background: #dcfce7;
+    border: 1px solid #dcfce7;
+    border-radius: 4px;
+    padding: 7px 32px;
+    margin: 0 3px;
+    &:hover {
+      border: 1px solid #86efac;
+    }
+  }
+}

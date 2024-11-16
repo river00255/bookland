@@ -8,6 +8,7 @@ import { FavoriteBook, FavoriteLib } from '../type';
 import styles from './mypage.module.scss';
 import FavoriteLibrary from '../_components/FavoriteLibrary';
 import Link from 'next/link';
+import { reviewQueries } from '../_service/review';
 
 const MyPage = () => {
   const { data: session, status } = useSession();
@@ -21,6 +22,11 @@ const MyPage = () => {
     enabled: !!session,
   });
   // console.log(data);
+
+  const { data: reviews } = useQuery(
+    reviewQueries.byUser({ userId: String(email), cursor: 1 })
+  );
+  console.log(reviews);
 
   if (status === 'loading') return <div className="container">Loading...</div>;
   if (status === 'unauthenticated')

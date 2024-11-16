@@ -3,8 +3,11 @@ import { SyntheticEvent, useRef, useState } from 'react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import styles from './reviewForm.module.scss';
 import dynamic from 'next/dynamic';
-import { addReview } from '@/app/_service/review';
+import { addReview, deleteReview, updateReview } from '@/app/_service/review';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { BookReview } from '@/app/type';
+import { ReviewKeys } from '@/app/_service/keys';
+import { useRouter } from 'next/navigation';
 
 const TinymceEditor = dynamic(() => import('../TinymceEditor'), {
   ssr: false,
@@ -13,23 +16,57 @@ const TinymceEditor = dynamic(() => import('../TinymceEditor'), {
 const ReviewForm = ({
   userId,
   item,
-  initialValue,
 }: {
   userId: string;
-  item: { title: string; author: string; isbn: string; publisher: string };
-  initialValue?: string;
+  item:
+    | Pick<BookReview, 'title' | 'author' | 'isbn' | 'publisher'>
+    | BookReview;
 }) => {
   // const inputRef = useRef<(HTMLInputElement | null)[]>([]);
   const editorRef = useRef<TinyMCEEditor | null>(null);
   const [isPublic, setIsPublic] = useState(true);
 
+  const router = useRouter();
+
+  const isExistField = (
+    field: keyof BookReview,
+    item:
+      | Pick<BookReview, 'title' | 'author' | 'isbn' | 'publisher'>
+      | BookReview
+  ) => {
+    return field in item;
+  };
+
   const queryClient = useQueryClient();
 
   const { mutate: write } = useMutation({
     mutationFn: addReview,
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({});
-    // },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ReviewKeys.all,
+      });
+      router.push('../review');
+    },
+  });
+
+  const { mutate: edit } = useMutation({
+    mutationFn: updateReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ReviewKeys.all,
+      });
+      router.push(`../review/${(item as BookReview).id}`);
+    },
+  });
+
+  const { mutate: onDelete } = useMutation({
+    mutationFn: deleteReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ReviewKeys.all,
+      });
+      router.push('../review');
+    },
   });
 
   const onSubmit = (e: SyntheticEvent) => {
@@ -38,8 +75,18 @@ const ReviewForm = ({
     // const author = inputRef.current[1]?.value;
     if (!item.isbn || !editorRef.current) return;
     const content = editorRef.current.getContent();
-    // console.log({ ...item, review: content, userId: userId, public: isPublic });
-    write({
+
+    if (isExistField('createdAt', item)) {
+      console.log('update');
+      if (userId !== (item as BookReview).userId) return;
+      return edit({
+        ...(item as BookReview),
+        review: content,
+        public: isPublic,
+        updatedAt: new Date(),
+      });
+    }
+    return write({
       ...item,
       review: content,
       userId: userId,
@@ -76,14 +123,40 @@ const ReviewForm = ({
         />
       </span>
       <br />
-      <TinymceEditor editorRef={editorRef} initialValue={initialValue} />
-      <label htmlFor="public">비밀글</label>
-      <input
-        type="checkbox"
-        id="public"
-        onChange={(e) => setIsPublic(!e.target.checked)}
+      <TinymceEditor
+        editorRef={editorRef}
+        initialValue={
+          isExistField('review', item) ? (item as BookReview).review : ''
+        }
       />
-      <button>Log editor content</button>
+      <div className={styles.buttons}>
+        <label htmlFor="public">비밀글</label>
+        <input
+          type="checkbox"
+          id="public"
+          defaultChecked={
+            isExistField('public', item) && !(item as BookReview).public
+          }
+          onChange={(e) => setIsPublic(!e.target.checked)}
+        />
+      </div>
+      <div className={styles.buttons}>
+        {isExistField('createdAt', item) && (item as BookReview).createdAt ? (
+          <>
+            <button>수정하기</button>
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm('삭제하시겠습니까?'))
+                  onDelete({ id: (item as BookReview).id, userId });
+              }}>
+              삭제하기
+            </button>
+          </>
+        ) : (
+          <button>글쓰기</button>
+        )}
+      </div>
     </form>
   );
 };

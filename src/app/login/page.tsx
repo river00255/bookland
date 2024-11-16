@@ -30,14 +30,14 @@ const Login = () => {
           {...register('email', { required: true, pattern: /^\S+@\S+\.\S+$/ })}
           placeholder="이메일을 입력해주세요."
         />
-        <label>비밀번호</label>
+        {/* <label>비밀번호</label>
         <input
           type="password"
           {...register('password', {
             pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,18}$/,
           })}
           placeholder="비밀번호를 입력해주세요."
-        />
+        /> */}
         <button>로그인</button>
       </form>
       <div>

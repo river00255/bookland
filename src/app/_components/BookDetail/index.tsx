@@ -11,6 +11,7 @@ import { getFavoriteBook } from '@/app/_service/bookmark';
 import LikeBook from '../BookmarkButton/LikeBook';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import ReviewByBook from '../ReviewByBook';
 
 const BookDetail = ({ item }: { item: StoreBookItem }) => {
   const { data: session } = useSession();
@@ -79,6 +80,7 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
       </div>
       <div className={styles.moreInfo}>
         {userId && <FavoriteLibraryByBook email={userId} isbn={item.isbn13} />}
+        <ReviewByBook isbn={item.isbn13} />
       </div>
     </div>
   );

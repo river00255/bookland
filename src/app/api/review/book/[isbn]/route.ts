@@ -7,6 +7,7 @@ export const GET = async (
   const review = await prisma.review.findMany({
     where: {
       isbn: params.isbn,
+      public: true,
     },
     orderBy: {
       createdAt: 'desc',

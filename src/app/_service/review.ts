@@ -1,45 +1,56 @@
 import { fetcher } from '@/utils/fetcher';
 import { BookReview } from '../type';
+import { queryOptions } from '@tanstack/react-query';
+import { ReviewKeys } from './keys';
 
 const addReview = async (bookReview: Omit<BookReview, 'id' | 'createdAt'>) => {
   return await fetcher('POST', `../api/review`, bookReview);
 };
 
-const updateReview = async ({
-  review,
-}: {
-  review: Omit<BookReview, 'createdAt'>;
-}) => {
+const updateReview = async (review: BookReview) => {
   return await fetcher('PUT', `../api/review/${review.id}`, review);
 };
 
-const getReview = async (id: string) => {
-  return await fetcher('GET', `../api/review/${id}`);
+const deleteReview = async ({ id, userId }: { id: string; userId: string }) => {
+  return await fetcher('DELETE', `../api/review/${id}`, { userId });
 };
 
-const getReviewByUserId = async ({
-  userId,
-  cursor,
-}: {
-  userId: string;
-  cursor: number;
-}) => {
-  return await fetcher('GET', `../api/review/list/${userId}/?cursor=${cursor}`);
-};
+export { addReview, updateReview, deleteReview };
 
-const getReviewList = async ({ cursor }: { cursor: number }) => {
-  return await fetcher('GET', `../api/review?cursor=${cursor}`);
-};
-
-const deleteReview = async (id: string) => {
-  return await fetcher('DELETE', `../api/review/${id}`);
-};
-
-export {
-  addReview,
-  updateReview,
-  getReview,
-  getReviewByUserId,
-  getReviewList,
-  deleteReview,
+export const reviewQueries = {
+  get: (id: string | null) => {
+    if (!id) throw new Error(`Not exist ${id}. failed to fetch review ${id}.`);
+    return queryOptions({
+      queryKey: ReviewKeys.reviewItem(id),
+      queryFn: async () => await fetcher('GET', `../api/review/${id}`),
+      enabled: !!id,
+    });
+  },
+  getList: ({
+    cursor,
+    isPublic = true,
+  }: {
+    cursor: number;
+    isPublic?: boolean;
+  }) =>
+    queryOptions({
+      queryKey: ReviewKeys.allList(isPublic, cursor),
+      queryFn: async () => {
+        const url = isPublic
+          ? `../api/review?cursor=${cursor}`
+          : `../api/review?cursor=${cursor}&isPublic=1`;
+        return await fetcher('GET', url);
+      },
+    }),
+  byBook: ({ isbn }: { isbn: string }) =>
+    queryOptions({
+      queryKey: ReviewKeys.byBook(isbn),
+      queryFn: async () => await fetcher('GET', `../api/review/book/${isbn}`),
+    }),
+  byUser: ({ userId, cursor }: { userId: string; cursor: number }) =>
+    queryOptions({
+      queryKey: ReviewKeys.all,
+      queryFn: async () =>
+        await fetcher('GET', `../api/review/list/${userId}?cursor=${cursor}`),
+    }),
 };

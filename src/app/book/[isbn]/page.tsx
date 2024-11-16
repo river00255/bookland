@@ -6,13 +6,12 @@ import { useParams } from 'next/navigation';
 import BookDetail from '@/app/_components/BookDetail';
 
 const Book = () => {
-  const params = useParams();
+  const { isbn } = useParams();
   // console.log(params);
 
   const { data } = useQuery({
-    queryKey: StoreKeys.bookDetail(String(params.isbn)),
-    queryFn: () => getBookDetail({ isbn: String(params.isbn) }),
-    enabled: !!params.isbn,
+    queryKey: StoreKeys.bookDetail(String(isbn)),
+    queryFn: () => getBookDetail({ isbn: String(isbn) }),
   });
   // console.log(data);
 

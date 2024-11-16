@@ -1,17 +1,12 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
-import { ReviewKeys } from '../_service/keys';
-import { getReviewList } from '../_service/review';
+import { reviewQueries } from '../_service/review';
 import { BookReview } from '../type';
 import styles from './review.module.scss';
 import Link from 'next/link';
 
 const Review = () => {
-  const { data } = useQuery({
-    queryKey: ReviewKeys.allList(true),
-    queryFn: () => getReviewList({ cursor: 1 }),
-  });
-  // console.log(data);
+  const { data } = useQuery(reviewQueries.getList({ cursor: 1 }));
 
   return (
     <div className={`container ${styles.list}`}>

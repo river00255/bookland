@@ -1,6 +1,8 @@
 'use client';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styles from './page.module.scss';
+import usePagination from '@/app/_hooks/usePagination';
+import Pages from './pages';
 
 const Pagiantion = ({
   currentPage,
@@ -17,52 +19,43 @@ const Pagiantion = ({
   totalPage: number;
   pageLimit: number;
 }) => {
-  const pageOffset = currentPageBlock * pageLimit;
-
-  const createPageBlock = useCallback((totalPage: number) => {
-    return Array.from({ length: totalPage }, (_, i) => i + 1);
-  }, []);
-
-  const prev = useCallback(() => {
-    if (currentPageBlock < 1 || currentPageBlock === 0) return;
-    setCurrentPage((currentPageBlock - 1) * pageLimit + 1);
-    setCurrentPageBlock((prev) => prev - 1);
-  }, [currentPageBlock, pageLimit, setCurrentPage, setCurrentPageBlock]);
-
-  const next = useCallback(() => {
-    if ((currentPageBlock + 1) * pageLimit >= totalPage) return;
-    setCurrentPage((currentPageBlock + 1) * pageLimit + 1);
-    setCurrentPageBlock((prev) => prev + 1);
-  }, [currentPageBlock, pageLimit, setCurrentPage, setCurrentPageBlock, totalPage]);
-
-  const moveToFirst = useCallback(() => {
-    setCurrentPage(1);
-    setCurrentPageBlock(0);
-  }, [setCurrentPage, setCurrentPageBlock]);
-
-  const moveToLast = useCallback(() => {
-    setCurrentPage(totalPage);
-    setCurrentPageBlock(Math.ceil(totalPage / pageLimit) - 1);
-  }, [pageLimit, setCurrentPage, setCurrentPageBlock, totalPage]);
+  const { prev, next, moveToFirst, moveToLast, createPageBlock, pageOffset } =
+    usePagination({
+      currentPage,
+      setCurrentPage,
+      currentPageBlock,
+      setCurrentPageBlock,
+      totalPage,
+      pageLimit,
+    });
 
   return (
     <div className={styles.page}>
-      <button onClick={moveToFirst} disabled={currentPage === 1 || currentPageBlock === 0}>
+      <button
+        onClick={moveToFirst}
+        disabled={currentPage === 1 || currentPageBlock === 0}>
         &lt;&lt;
       </button>
-      <button onClick={() => prev()} disabled={currentPage === 1 || totalPage < 2 || currentPageBlock === 0}>
+      <button
+        onClick={() => prev()}
+        disabled={currentPage === 1 || totalPage < 2 || currentPageBlock === 0}>
         &lt;
       </button>
-      {createPageBlock(totalPage)
-        .slice(pageOffset, pageOffset + pageLimit)
-        .map((i) => (
-          <button key={i} data-index={currentPage === i ? i : null} onClick={() => setCurrentPage(i)}>
-            {i}
-          </button>
-        ))}
+      <Pages
+        createPageBlock={createPageBlock}
+        pageOffset={pageOffset}
+        totalPage={totalPage}
+        pageLimit={pageLimit}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
       <button
         onClick={() => next()}
-        disabled={currentPage === totalPage || totalPage < 2 || (currentPageBlock + 1) * pageLimit >= totalPage}>
+        disabled={
+          currentPage === totalPage ||
+          totalPage < 2 ||
+          (currentPageBlock + 1) * pageLimit >= totalPage
+        }>
         &gt;
       </button>
       <button

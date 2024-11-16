@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 
-const findExistCursor = async (id: number, count: number) => {
+export const findExistCursor = async (id: number, count: number) => {
   let currentId = id;
 
   while (true) {
@@ -15,9 +15,12 @@ const findExistCursor = async (id: number, count: number) => {
   }
 };
 
+export const PAGE_SIZE = 10;
+
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
   const cursor = searchParams.get('cursor');
+  const isPublic = searchParams.get('isPublic');
 
   const count = await prisma.review.count();
 
@@ -27,11 +30,16 @@ export const GET = async (request: NextRequest) => {
     orderBy: {
       createdAt: 'desc',
     },
-    take: 10, // page size
-    skip: id > 1 ? 1 : 0, // skip the cursor
-    cursor: {
-      id,
+    where: {
+      public: Number(isPublic) > 0 ? false : true,
     },
+    take: PAGE_SIZE, // page size
+    ...(id > PAGE_SIZE && {
+      skip: 1, // skip the cursor
+      cursor: {
+        id,
+      },
+    }),
   });
 
   return Response.json({

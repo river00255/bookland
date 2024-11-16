@@ -29,7 +29,10 @@ export const BookmarkKeys = {
 
 export const ReviewKeys = {
   all: ['review'] as const,
-  allList: (isPublic: boolean) =>
-    [...ReviewKeys.all, 'list', isPublic] as const,
-  reviewItem: (id: string) => [...ReviewKeys.all, 'review', id] as const,
+  allList: (isPublic: boolean, cursor: number) =>
+    [...ReviewKeys.all, { isPublic, cursor }] as const,
+  byBook: (isbn: string) => [...ReviewKeys.all, { isbn }] as const,
+  byUser: (userId: string, cursor: number) =>
+    [...ReviewKeys.all, { userId, cursor }] as const,
+  reviewItem: (id: string) => [...ReviewKeys.all, 'item', id] as const,
 };
