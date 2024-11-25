@@ -9,25 +9,40 @@ const Pagiantion = ({
   setCurrentPage,
   currentPageBlock,
   setCurrentPageBlock,
-  totalPage,
+  // totalPage,
+  totalCount,
+  pageSize,
   pageLimit,
+  ...props
 }: {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   currentPageBlock: number;
   setCurrentPageBlock: Dispatch<SetStateAction<number>>;
-  totalPage: number;
+  // totalPage: number;
+  totalCount: number;
+  pageSize: number;
   pageLimit: number;
+  [property: string]: any;
 }) => {
-  const { prev, next, moveToFirst, moveToLast, createPageBlock, pageOffset } =
-    usePagination({
-      currentPage,
-      setCurrentPage,
-      currentPageBlock,
-      setCurrentPageBlock,
-      totalPage,
-      pageLimit,
-    });
+  const {
+    prev,
+    next,
+    moveToFirst,
+    moveToLast,
+    createPageBlock,
+    pageOffset,
+    totalPage,
+  } = usePagination({
+    currentPage,
+    setCurrentPage,
+    currentPageBlock,
+    setCurrentPageBlock,
+    totalCount,
+    pageSize,
+    pageLimit,
+    ...props,
+  });
 
   return (
     <div className={styles.page}>

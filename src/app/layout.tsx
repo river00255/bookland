@@ -7,6 +7,8 @@ import QueryProvider from '@/lib/QueryPovider';
 import Footer from './_components/Footer';
 import Script from 'next/script';
 import AuthProvider from './_components/AuthProvider';
+import ModalRoot from './_components/Modal/ModalRoot';
+import SnackbarProvider from './_components/SnackbarProvider';
 
 const LineSeedKr = localFont({
   src: './fonts/LINESeedKR-Rg.woff',
@@ -25,13 +27,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={LineSeedKr.className}>
-        <AuthProvider>
-          <QueryProvider>
-            <Header />
-            {children}
-            <Footer />
-          </QueryProvider>
-        </AuthProvider>
+        <SnackbarProvider>
+          <AuthProvider>
+            <QueryProvider>
+              <Header />
+              {children}
+              <Footer />
+            </QueryProvider>
+          </AuthProvider>
+        </SnackbarProvider>
+        <ModalRoot />
       </body>
       <Script
         type="text/javascript"

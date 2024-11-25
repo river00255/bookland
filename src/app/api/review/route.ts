@@ -35,7 +35,7 @@ export const GET = async (request: NextRequest) => {
     },
     take: PAGE_SIZE, // page size
     ...(id > PAGE_SIZE && {
-      skip: 1, // skip the cursor
+      // skip: 1, // skip the cursor
       cursor: {
         id,
       },

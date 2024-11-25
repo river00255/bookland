@@ -9,7 +9,6 @@ import { regions } from '@/utils';
 import Pagiantion from '../Pagination';
 import useModal from '@/app/_hooks/useModal';
 import Modal from '../Modal';
-import ModalRoot from '../Modal/ModalRoot';
 import { useSession } from 'next-auth/react';
 import LibraryPreview from '../LibraryPreview';
 import { getFavoriteLibList } from '@/app/_service/bookmark';
@@ -84,7 +83,9 @@ const LibraryLists = () => {
           currentPageBlock={currentPageBlock}
           setCurrentPageBlock={setCurrentPageBlock}
           pageLimit={pageableCount}
-          totalPage={Math.ceil(data.numFound / pageSize)}
+          totalCount={data.numFound}
+          pageSize={pageSize}
+          // totalPage={Math.ceil(data.numFound / pageSize)}
         />
       )}
       {popup && (
@@ -101,7 +102,6 @@ const LibraryLists = () => {
             ))}
         </Modal>
       )}
-      <ModalRoot />
     </div>
   );
 };

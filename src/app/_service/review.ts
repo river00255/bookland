@@ -47,10 +47,10 @@ export const reviewQueries = {
       queryKey: ReviewKeys.byBook(isbn),
       queryFn: async () => await fetcher('GET', `../api/review/book/${isbn}`),
     }),
-  byUser: ({ userId, cursor }: { userId: string; cursor: number }) =>
+  byUser: ({ userId, offset }: { userId: string; offset: number }) =>
     queryOptions({
       queryKey: ReviewKeys.all,
       queryFn: async () =>
-        await fetcher('GET', `../api/review/list/${userId}?cursor=${cursor}`),
+        await fetcher('GET', `../api/review/list/${userId}?skip=${offset}`),
     }),
 };

@@ -1,0 +1,16 @@
+.reviews {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.reviewItem {
+  width: 320px;
+  height: 120px;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 10px 16px;
+}

@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BookReview } from '@/app/type';
 import { ReviewKeys } from '@/app/_service/keys';
 import { useRouter } from 'next/navigation';
+import { useSnackbar } from '../SnackbarProvider';
 
 const TinymceEditor = dynamic(() => import('../TinymceEditor'), {
   ssr: false,
@@ -27,6 +28,8 @@ const ReviewForm = ({
   const [isPublic, setIsPublic] = useState(true);
 
   const router = useRouter();
+
+  const { show } = useSnackbar();
 
   const isExistField = (
     field: keyof BookReview,
@@ -55,6 +58,7 @@ const ReviewForm = ({
       queryClient.invalidateQueries({
         queryKey: ReviewKeys.all,
       });
+      show('독서 후기가 수정되었습니다.');
       router.push(`../review/${(item as BookReview).id}`);
     },
   });

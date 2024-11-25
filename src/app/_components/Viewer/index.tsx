@@ -1,8 +1,17 @@
 import DOMPurify from 'dompurify';
 
-const Viewer = ({ content }: { content: string }) => {
+const Viewer = ({
+  content,
+  ...props
+}: {
+  content: string;
+  [property: string]: any;
+}) => {
   return (
-    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+    <div
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+      {...props}
+    />
   );
 };
 

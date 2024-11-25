@@ -1,17 +1,19 @@
 import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';
-import { findExistCursor, PAGE_SIZE } from '../../route';
+import { PAGE_SIZE } from '../../route';
 
 export const GET = async (
   request: NextRequest,
   { params }: { params: { userId: string } }
 ) => {
   const searchParams = request.nextUrl.searchParams;
-  const cursor = searchParams.get('cursor');
+  const skip = searchParams.get('skip');
 
-  const count = await prisma.review.count();
-
-  const id = await findExistCursor(Number(cursor), count);
+  const allList = await prisma.review.findMany({
+    where: {
+      userId: params.userId,
+    },
+  });
 
   const review = await prisma.review.findMany({
     orderBy: {
@@ -21,16 +23,11 @@ export const GET = async (
       userId: params.userId,
     },
     take: PAGE_SIZE, // page size
-    ...(id > PAGE_SIZE && {
-      skip: 1, // skip the cursor
-      cursor: {
-        id,
-      },
-    }),
+    skip: Number(skip),
   });
 
   return Response.json({
     review,
-    totalCount: count,
+    totalCount: allList.length,
   });
 };

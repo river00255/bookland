@@ -80,8 +80,8 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
       </div>
       <div className={styles.moreInfo}>
         {userId && <FavoriteLibraryByBook email={userId} isbn={item.isbn13} />}
-        <ReviewByBook isbn={item.isbn13} />
       </div>
+      <ReviewByBook isbn={item.isbn13} />
     </div>
   );
 };

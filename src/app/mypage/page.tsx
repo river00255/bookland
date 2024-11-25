@@ -4,15 +4,19 @@ import { BookmarkKeys } from '../_service/keys';
 import { getBookmarkList } from '../_service/bookmark';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FavoriteBook, FavoriteLib } from '../type';
+import { BookReview, FavoriteBook, FavoriteLib } from '../type';
 import styles from './mypage.module.scss';
 import FavoriteLibrary from '../_components/FavoriteLibrary';
 import Link from 'next/link';
 import { reviewQueries } from '../_service/review';
+import useModal from '../_hooks/useModal';
+import Modal from '../_components/Modal';
 
 const MyPage = () => {
   const { data: session, status } = useSession();
   const email = session?.user?.email;
+
+  const { popup, openModal, closeModal } = useModal();
 
   const router = useRouter();
 
@@ -24,9 +28,9 @@ const MyPage = () => {
   // console.log(data);
 
   const { data: reviews } = useQuery(
-    reviewQueries.byUser({ userId: String(email), cursor: 1 })
+    reviewQueries.byUser({ userId: String(email), offset: 0 })
   );
-  console.log(reviews);
+  // console.log(reviews);
 
   if (status === 'loading') return <div className="container">Loading...</div>;
   if (status === 'unauthenticated')
@@ -38,6 +42,9 @@ const MyPage = () => {
   return (
     <div className={`container ${styles.mypage}`}>
       <p>{session?.user?.email} 님</p>
+      <div className={styles.content}>
+        <button onClick={() => openModal()}>나의 독서후기</button>
+      </div>
       <div className={styles.content}>
         <h4>즐겨찾는 도서관</h4>
         {data?.bookmark?.lib?.length < 1 ? (
@@ -71,6 +78,19 @@ const MyPage = () => {
           ))
         )}
       </div>
+      {popup && (
+        <Modal isOpen={popup} close={() => closeModal()}>
+          <div className={styles.reviews}>
+            <h4>독서 후기</h4>
+            {reviews &&
+              reviews.review.map((review: BookReview) => (
+                <div key={review.id}>
+                  <Link href={`../review/${review.id}`}>{review.title}</Link>
+                </div>
+              ))}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export type LibBookItem = {
   authors: string;
   bookImageURL: string;
@@ -101,3 +103,18 @@ export type BookReview = {
   createdAt: Date;
   updatedAt?: Date;
 };
+
+// export const ReviewSchema = z.object({
+//   id: z.string(),
+//   isbn: z.string(),
+//   title: z.string(),
+//   author: z.string(),
+//   publisher: z.string(),
+//   review: z.string(),
+//   userId: z.string(),
+//   public: z.boolean(),
+//   createdAt: z.datetime(),
+//   updatedAt: z.datetime().optional(),
+// });
+
+// export type BookReview = z.infer<typeof ReviewSchema>;

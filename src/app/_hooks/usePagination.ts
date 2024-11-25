@@ -1,20 +1,28 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 
 const usePagination = ({
   currentPage,
   setCurrentPage,
   currentPageBlock,
   setCurrentPageBlock,
-  totalPage,
+  totalCount,
+  pageSize,
   pageLimit,
+  ...props
 }: {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   currentPageBlock: number;
   setCurrentPageBlock: Dispatch<SetStateAction<number>>;
-  totalPage: number;
+  totalCount: number;
+  pageSize: number;
   pageLimit: number;
+  [property: string]: any;
 }) => {
+  const { cursor, setCursor, offset, setOffset } = props;
+
+  const totalPage = Math.ceil(totalCount / pageSize);
+
   const pageOffset = currentPageBlock * pageLimit;
 
   const createPageBlock = (totalPage: number) => {
@@ -49,7 +57,20 @@ const usePagination = ({
     setCurrentPageBlock(Math.ceil(totalPage / pageLimit) - 1);
   }, [pageLimit, setCurrentPage, setCurrentPageBlock, totalPage]);
 
-  return { pageOffset, createPageBlock, prev, next, moveToFirst, moveToLast };
+  useEffect(() => {
+    if (cursor && setCursor && currentPage > 1)
+      setCursor(currentPage * pageSize);
+  }, [currentPage]);
+
+  return {
+    pageOffset,
+    createPageBlock,
+    prev,
+    next,
+    moveToFirst,
+    moveToLast,
+    totalPage,
+  };
 };
 
 export default usePagination;

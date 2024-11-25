@@ -12,7 +12,7 @@ export const GET = async (
     orderBy: {
       createdAt: 'desc',
     },
-    take: 10,
+    take: 8,
   });
 
   if (!review)

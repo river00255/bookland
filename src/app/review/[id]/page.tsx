@@ -6,6 +6,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import styles from './reviewDetail.module.scss';
 import { useSession } from 'next-auth/react';
 
+const maskingEmail = (email: string) => {
+  const id = `${email.split('@')[0].slice(0, 2)}***${email.split('@')[0].slice(-1)}`;
+  const mail = email.split('@')[1];
+  return `${id}@${mail}`;
+};
+
 const ReviewDetail = () => {
   const pathname = usePathname();
   const id = pathname.replace('/review/', '');
@@ -28,6 +34,7 @@ const ReviewDetail = () => {
         </span>
         <p>{new Date(data.createdAt).toLocaleDateString()}</p>
         <hr />
+        <p style={{ color: '#bdbdbd' }}>{maskingEmail(data.userId)}</p>
         <Viewer content={data.review} />
       </div>
       {session?.user?.email === data.userId && (

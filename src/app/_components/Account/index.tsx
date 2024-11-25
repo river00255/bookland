@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/react';
 
 const Account = () => {
   const { data: session, status } = useSession();
+  // console.log(session);
 
   if (status === 'loading') return null;
   return (

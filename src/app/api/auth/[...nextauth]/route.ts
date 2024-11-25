@@ -1,13 +1,41 @@
 import prisma from '@/lib/prisma';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import KakaoProvider from 'next-auth/providers/kakao';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-export const authOptions = {
+const authOptions = {
   secret: process.env.AUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID as string,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
+    }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'text', placeholder: 'Email' },
+      },
+      async authorize(credentials, req) {
+        if (!credentials) throw new Error('SignIn Error');
+        const { email } = credentials;
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email,
+          },
+        });
+
+        if (user) {
+          return { id: user.email, email: user.email };
+        } else {
+          return null;
+        }
+      },
     }),
   ],
   callbacks: {
@@ -29,13 +57,15 @@ export const authOptions = {
         });
       }
       // if (account.provider === 'google') {
-      //   console.log(credentials);
       // }
       return true;
     },
-    // async session({ session, user, token }) {
+    // async session({ session, user, token }: any) {
     //   return session;
     // },
+  },
+  pages: {
+    signIn: '../login',
   },
 };
 
