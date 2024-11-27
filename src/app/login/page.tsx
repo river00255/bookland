@@ -5,6 +5,8 @@ import { signIn } from 'next-auth/react';
 import { sendMagicLink } from '../_service/auth';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSnackbar } from '../_components/SnackbarProvider';
+import Link from 'next/link';
 
 type Inputs = {
   email: string;
@@ -24,8 +26,11 @@ const Login = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    sendMagicLink(data.email);
+  const { show } = useSnackbar();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const response = await sendMagicLink(data.email);
+    show(response.message);
   };
 
   return (
@@ -60,6 +65,9 @@ const Login = () => {
           Kakao로 로그인
         </button>
       </div>
+      <Link href={'../account'}>
+        <p>회원가입 👋</p>
+      </Link>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 
-export const findExistCursor = async (id: number, count: number) => {
+const findExistCursor = async (id: number, count: number) => {
   let currentId = id;
 
   while (true) {
@@ -15,7 +15,7 @@ export const findExistCursor = async (id: number, count: number) => {
   }
 };
 
-export const PAGE_SIZE = 10;
+const PAGE_SIZE = 10;
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;

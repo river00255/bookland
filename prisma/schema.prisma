@@ -9,9 +9,9 @@ datasource db {
 }
 
 model User {
-  email     String   @id
+  email     String    @id
   provider  String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   book      Book[]
   library   Library[]
   review    Review[]
@@ -23,7 +23,7 @@ model Book {
   isbn      String
   author    String
   publisher String
-  user      User     @relation(fields: [userId], references: [email])
+  user      User     @relation(fields: [userId], references: [email], onDelete: Cascade)
   userId    String
 }
 
@@ -32,7 +32,7 @@ model Library {
   name      String
   code      String
   region    Int
-  user      User     @relation(fields: [userId], references: [email])
+  user      User     @relation(fields: [userId], references: [email], onDelete: Cascade)
   userId    String
 }
 
@@ -43,7 +43,7 @@ model Review {
   author      String
   publisher   String?
   review      String?
-  user        User        @relation(fields: [userId], references: [email])
+  user        User        @relation(fields: [userId], references: [email], onDelete: Cascade)
   userId      String
   public      Boolean
   createdAt   DateTime    @default(now())

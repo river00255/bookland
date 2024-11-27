@@ -45,10 +45,11 @@ const VerifyEmail = () => {
     <div className={styles.verify}>
       {result.message && (
         <>
-          <h4>로그인 유효 시간 만료</h4>
+          <h4>확인되지 않은 이메일</h4>
           <button onClick={() => router.replace('../login')}>
-            로그인 링크 다시 보내기
+            이메일로 링크 다시 보내기
           </button>
+          <span className={styles.errorMessage}>{result.message}</span>
         </>
       )}
       {result.email && (

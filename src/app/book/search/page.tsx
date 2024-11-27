@@ -11,6 +11,7 @@ import StoreBookPreview from '@/app/_components/StoreBookPreview';
 import Pagiantion from '@/app/_components/Pagination';
 
 const pageLimit = 10;
+const pageSize = 10;
 
 const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,8 +55,9 @@ const Search = () => {
           setCurrentPage={setCurrentPage}
           currentPageBlock={currentPageBlock}
           setCurrentPageBlock={setCurrentPageBlock}
-          totalPage={Math.ceil(data.totalResults / pageLimit)}
+          totalCount={data.totalResults}
           pageLimit={pageLimit}
+          pageSize={pageSize}
         />
       )}
     </div>

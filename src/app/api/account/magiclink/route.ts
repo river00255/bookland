@@ -1,18 +1,31 @@
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import prisma from '@/lib/prisma';
 
 export const POST = async (request: Request) => {
-  // const searchParams = request.nextUrl.searchParams;
-  // const email = searchParams.get('email') as string;
   const data = await request.json();
+
+  const findUser = await prisma.user.findUnique({
+    where: {
+      email: data.email,
+    },
+  });
+
+  if (!findUser)
+    return new Response(
+      JSON.stringify({ message: '가입되지 않은 이메일입니다.' }),
+      {
+        status: 400,
+      }
+    );
 
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST as string,
-    port: 587,
-    secure: false,
+    port: Number(process.env.EMAIL_SERVER_PORT as string),
+    secure: true,
     auth: {
-      user: process.env.EMAIL_SERVER_USER,
-      pass: process.env.EMAIL_SERVER_PASSWORD,
+      user: process.env.EMAIL_SERVER_USER as string,
+      pass: process.env.EMAIL_SERVER_PASSWORD as string,
     },
   });
 
@@ -29,10 +42,11 @@ export const POST = async (request: Request) => {
     to: data.email,
     subject: '[Bookland] Verify your email ✔',
     html: `<div>
-      <p>Welcome! ${data.email}</p>
-      <p>Into the Bookland</p>
-      <button style="padding: 4px 24px; background: #e2e8f0;">
-        <a href=${`${request.headers.get('origin')}/account/verify?token=${token}`} target="_blank">Signin</a>
+      <p>Hello!</p>
+      <p>${data.email} 🥳</p>
+      <p>Into the Bookland.</p>
+      <button style="padding: 4px 32px; background: #e2e8f0; border: none;">
+        <a href=${`${request.headers.get('origin')}/account/verify?token=${token}`} target="_blank" style="text-decoration: none; color: #444;">Signin</a>
       </button>
     </div>`,
   };
@@ -47,7 +61,9 @@ export const POST = async (request: Request) => {
           result = err.message;
         } else {
           resolve(info);
-          result = info.messageId;
+          // result = info.messageId;
+          result =
+            '로그인 링크가 메일로 전송되었습니다. 메일함을 확인해주세요.';
         }
       });
     });

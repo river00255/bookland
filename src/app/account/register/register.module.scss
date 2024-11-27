@@ -1,11 +1,16 @@
-.login {
+.register {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 400px;
-  min-height: 70dvh;
   margin: 32px auto;
   padding: 40px 16px;
+  button {
+    background: #e2e8f0;
+    padding: 12px;
+    border-radius: 4px;
+    margin: 32px 0 20px 0;
+  }
 }
 .form {
   display: flex;
@@ -25,12 +30,6 @@
       color: #cbd5e1;
     }
   }
-  button {
-    background: #e2e8f0;
-    padding: 12px 0;
-    border-radius: 4px;
-    margin: 32px 0 20px 0;
-  }
 }
 .message {
   font-size: 14px;
@@ -38,15 +37,4 @@
 .errorMessage {
   font-size: 14px;
   color: #fb923c;
-}
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  > button {
-    border: 1px solid #e2e8f0;
-    padding: 12px 24px;
-    border-radius: 4px;
-    margin: 10px;
-  }
 }

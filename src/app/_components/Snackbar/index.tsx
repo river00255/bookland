@@ -5,13 +5,15 @@ const Snackbar = ({
   message,
   show,
   close,
+  time = 3000,
 }: {
   message: string;
   show: (message: string) => void;
   close: () => void;
+  time: number;
 }) => {
   useEffect(() => {
-    const timer = setTimeout(() => close(), 3000);
+    const timer = setTimeout(() => close(), time);
 
     return () => clearTimeout(timer);
   }, [show]);

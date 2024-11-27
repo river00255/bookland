@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';
-import { PAGE_SIZE } from '../../route';
+
+const PAGE_SIZE = 10;
 
 export const GET = async (
   request: NextRequest,

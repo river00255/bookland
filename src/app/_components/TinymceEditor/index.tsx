@@ -1,7 +1,7 @@
 'use client';
 import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
-import { ChangeEvent, MutableRefObject, useRef } from 'react';
+import { ChangeEvent, MutableRefObject } from 'react';
 import imageCompression from 'browser-image-compression';
 
 const compressOptions = {

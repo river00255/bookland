@@ -11,25 +11,19 @@ export const POST = async (request: NextRequest) => {
     const { email } = decoded as JwtPayload;
     if (!email) throw new Error('Invalid email.');
 
-    if (email) {
-      const findUser = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
+    const findUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
 
-      if (!findUser) {
-        const newUser = await prisma.user.create({
-          data: {
-            email,
-            provider: 'email',
-          },
-        });
-        return Response.json(newUser);
-      }
+    if (!findUser) {
+      return new Response(JSON.stringify({ message: 'Fail to verify.' }), {
+        status: 400,
+      });
     }
 
-    return Response.json(decoded);
+    return Response.json(findUser);
   } catch (e) {
     console.log(e);
     return new Response(JSON.stringify({ message: 'Invalid token.' }), {

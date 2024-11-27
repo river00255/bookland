@@ -3,7 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './register.module.scss';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { sendMagicLink } from '../_service/auth';
+import { sendEmail } from '../_service/auth';
+import { useSnackbar } from '../_components/SnackbarProvider';
 
 const schema = z.object({
   email: z.string().email({ message: '유효한 이메일 주소를 입력해주세요.' }),
@@ -27,8 +28,11 @@ const Register = () => {
     resolver: zodResolver(schema),
   });
 
+  const { show } = useSnackbar();
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    sendMagicLink(data.email);
+    const response = await sendEmail(data.email);
+    show(response.message);
   };
 
   return (
