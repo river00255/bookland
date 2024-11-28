@@ -47,22 +47,26 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
         <div className={styles.title}>
           <p>{item.categoryName}</p>
           <h4>{item.title}</h4>
-          {userId && favoritBook && (
-            <LikeBook
-              prevData={favoritBook}
-              userId={userId}
-              book={{
-                name: item.title,
-                isbn: item.isbn13,
-                author: item.author,
-                publisher: item.publisher,
-                userId,
-              }}
-            />
-          )}
-          {userId && (
-            <button onClick={() => moveReviewForm(item)}>+ 리뷰 남기기</button>
-          )}
+          <span>
+            {userId && favoritBook && (
+              <LikeBook
+                prevData={favoritBook}
+                userId={userId}
+                book={{
+                  name: item.title,
+                  isbn: item.isbn13,
+                  author: item.author,
+                  publisher: item.publisher,
+                  userId,
+                }}
+              />
+            )}
+            {userId && (
+              <button onClick={() => moveReviewForm(item)}>
+                + 리뷰 남기기
+              </button>
+            )}
+          </span>
           <p>{decode(item.description)}</p>
         </div>
       </div>

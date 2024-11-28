@@ -9,7 +9,6 @@ const Pagiantion = ({
   setCurrentPage,
   currentPageBlock,
   setCurrentPageBlock,
-  // totalPage,
   totalCount,
   pageSize,
   pageLimit,
@@ -19,7 +18,6 @@ const Pagiantion = ({
   setCurrentPage: Dispatch<SetStateAction<number>>;
   currentPageBlock: number;
   setCurrentPageBlock: Dispatch<SetStateAction<number>>;
-  // totalPage: number;
   totalCount: number;
   pageSize: number;
   pageLimit: number;
@@ -33,6 +31,7 @@ const Pagiantion = ({
     createPageBlock,
     pageOffset,
     totalPage,
+    setUrlSearchParams,
   } = usePagination({
     currentPage,
     setCurrentPage,
@@ -63,6 +62,7 @@ const Pagiantion = ({
         pageLimit={pageLimit}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
+        setUrlSearchParams={setUrlSearchParams}
       />
       <button
         onClick={() => next()}

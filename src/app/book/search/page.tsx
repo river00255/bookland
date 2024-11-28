@@ -43,8 +43,8 @@ const Search = () => {
           (data.totalResults < 1 ? (
             <span>검색 결과가 없습니다.</span>
           ) : (
-            data.item.map((book: StoreBookItem) => (
-              <StoreBookPreview key={book.isbn13} item={book} />
+            data.item.map((book: StoreBookItem, i: number) => (
+              <StoreBookPreview key={`${book.isbn13}_${i}`} item={book} />
             ))
           ))}
         {}

@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react';
 import LibraryPreview from '../LibraryPreview';
 import { getFavoriteLibList } from '@/app/_service/bookmark';
 import FavoriteLibrary from '../FavoriteLibrary';
+import usePagination from '@/app/_hooks/usePagination';
 
 const pageSize = 20;
 const pageableCount = 10;
@@ -38,6 +39,16 @@ const LibraryLists = () => {
   });
   // console.log(favoriteLibs);
 
+  const { moveToFirst } = usePagination({
+    currentPage,
+    setCurrentPage,
+    currentPageBlock,
+    setCurrentPageBlock,
+    pageLimit: pageableCount,
+    pageSize,
+    totalCount: data ? data.numFound : 0,
+  });
+
   return (
     <div>
       <div className={styles.title}>
@@ -51,8 +62,9 @@ const LibraryLists = () => {
         <select
           onChange={(e) => {
             setRegion(Number(e.target.value));
-            setCurrentPage(1);
-            setCurrentPageBlock(0);
+            // setCurrentPage(1);
+            // setCurrentPageBlock(0);
+            moveToFirst();
           }}>
           {regions.map((region) => (
             <option
