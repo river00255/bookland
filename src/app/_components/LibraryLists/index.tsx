@@ -14,6 +14,7 @@ import LibraryPreview from '../LibraryPreview';
 import { getFavoriteLibList } from '@/app/_service/bookmark';
 import FavoriteLibrary from '../FavoriteLibrary';
 import usePagination from '@/app/_hooks/usePagination';
+import Loading from '@/app/loading';
 
 const pageSize = 20;
 const pageableCount = 10;
@@ -77,7 +78,7 @@ const LibraryLists = () => {
         </select>
       </div>
       <div className={styles.lists}>
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <Loading />}
         {data &&
           data.libs.map((item: { lib: Lib }) => (
             <LibraryPreview

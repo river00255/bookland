@@ -1,14 +1,21 @@
 .item {
   display: flex;
-  align-items: center;
+  align-items: start;
   margin: 24px 0;
   border-bottom: 2px solid #94a3b8;
-  padding: 4px 5px;
+  padding: 4px 5px 4px 16px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   span {
     flex: 2;
   }
+}
+.like {
+  width: 21px;
+  height: 21px;
+  margin: 0 0 0 11px;
   button {
     padding: 2px;
-    margin: 0 0 0 20px;
   }
 }

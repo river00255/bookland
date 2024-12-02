@@ -20,7 +20,33 @@ const LikeLibrary = <T,>({
 
   const { mutate: like } = useMutation({
     mutationFn: likeLib,
-    onSuccess: () =>
+    onMutate: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.libItem(userId, lib.code),
+        (prev: FavoriteLib) =>
+          !prev
+            ? {
+                name: lib.name,
+                code: lib.code,
+                region: lib.region,
+                userId,
+              }
+            : null
+      );
+      return {
+        name: lib.name,
+        code: lib.code,
+        region: lib.region,
+        userId,
+      };
+    },
+    onError: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.libItem(userId, lib.code),
+        queryClient.getQueryData(BookmarkKeys.libItem(userId, lib.code))
+      );
+    },
+    onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: BookmarkKeys.libList(userId),
       }),
@@ -28,7 +54,28 @@ const LikeLibrary = <T,>({
 
   const { mutate: dislike } = useMutation({
     mutationFn: dislikeLib,
-    onSuccess: () =>
+    onMutate: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.libItem(userId, lib.code),
+        (prev: FavoriteLib) =>
+          prev
+            ? null
+            : {
+                name: lib.name,
+                code: lib.code,
+                region: lib.region,
+                userId,
+              }
+      );
+      return null;
+    },
+    onError: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.libItem(userId, lib.code),
+        queryClient.getQueryData(BookmarkKeys.libItem(userId, lib.code))
+      );
+    },
+    onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: BookmarkKeys.libList(userId),
       }),

@@ -26,7 +26,7 @@ const LibraryDetail = () => {
         <p>운영시간 : {lib.operatingTime}</p>
         <p>주 소 : {lib.address}</p>
         <p>휴관일 : {lib.closed}</p>
-        <Link href={lib.homepage}>
+        <Link href={lib.homepage} target="_blank">
           <p>{lib.homepage}</p>
         </Link>
       </div>

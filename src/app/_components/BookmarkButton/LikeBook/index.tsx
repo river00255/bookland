@@ -16,7 +16,20 @@ const LikeBook = ({
 
   const { mutate: like } = useMutation({
     mutationFn: likeBook,
-    onSuccess: () => {
+    onMutate: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.bookItem(userId, book.isbn),
+        (prev: FavoriteBook | null) => (!prev ? { ...book, userId } : null)
+      );
+      return { ...book, userId };
+    },
+    onError: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.bookItem(userId, book.isbn),
+        queryClient.getQueryData(BookmarkKeys.bookItem(userId, book.isbn))
+      );
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: BookmarkKeys.bookList(userId),
       });
@@ -25,7 +38,20 @@ const LikeBook = ({
 
   const { mutate: dislike } = useMutation({
     mutationFn: dislikeBook,
-    onSuccess: () => {
+    onMutate: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.bookItem(userId, book.isbn),
+        (prev: FavoriteBook | null) => (prev ? null : { ...book, userId })
+      );
+      return null;
+    },
+    onError: () => {
+      queryClient.setQueryData(
+        BookmarkKeys.bookItem(userId, book.isbn),
+        queryClient.getQueryData(BookmarkKeys.bookItem(userId, book.isbn))
+      );
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: BookmarkKeys.bookList(userId),
       });

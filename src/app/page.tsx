@@ -9,6 +9,7 @@ import styles from './home.module.scss';
 import { LibKeys } from './_service/keys';
 import { Suspense } from 'react';
 import { getTrend } from './_service/library';
+import Skeleton from './_components/Skeleton';
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -21,7 +22,7 @@ export default async function Home() {
   return (
     <div className={`container ${styles.main}`}>
       <Bestseller />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Skeleton />}>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <TrendLists />
         </HydrationBoundary>

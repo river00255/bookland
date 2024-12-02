@@ -10,6 +10,9 @@
     padding: 12px;
     border-radius: 4px;
     margin: 32px 0 20px 0;
+    &:disabled {
+      background: #f8fafc;
+    }
   }
 }
 .form {

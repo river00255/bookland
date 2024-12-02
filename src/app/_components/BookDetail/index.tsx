@@ -12,6 +12,7 @@ import LikeBook from '../BookmarkButton/LikeBook';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import ReviewByBook from '../ReviewByBook';
+import Slider from '../Slider';
 
 const BookDetail = ({ item }: { item: StoreBookItem }) => {
   const { data: session } = useSession();
@@ -48,6 +49,11 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
           <p>{item.categoryName}</p>
           <h4>{item.title}</h4>
           <span>
+            {userId && (
+              <button onClick={() => moveReviewForm(item)}>
+                + 리뷰 남기기
+              </button>
+            )}
             {userId && favoritBook && (
               <LikeBook
                 prevData={favoritBook}
@@ -61,26 +67,25 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
                 }}
               />
             )}
-            {userId && (
-              <button onClick={() => moveReviewForm(item)}>
-                + 리뷰 남기기
-              </button>
-            )}
           </span>
           <p>{decode(item.description)}</p>
         </div>
       </div>
       <div className={styles.moreInfo}>
-        {item.subInfo.cardReviewImgList &&
-          item.subInfo.cardReviewImgList.map((card, i) => (
-            <Image
-              src={card}
-              alt={String(i)}
-              width={400}
-              height={400}
-              key={i}
-            />
-          ))}
+        {
+          item.subInfo.cardReviewImgList && (
+            <Slider list={item.subInfo.cardReviewImgList} />
+          )
+          // item.subInfo.cardReviewImgList.map((card, i) => (
+          //   <Image
+          //     src={card}
+          //     alt={String(i)}
+          //     width={400}
+          //     height={400}
+          //     key={i}
+          //   />
+          // ))
+        }
       </div>
       <div className={styles.moreInfo}>
         {userId && <FavoriteLibraryByBook email={userId} isbn={item.isbn13} />}

@@ -35,18 +35,20 @@ const LibraryPreview = ({
           </p>
         </span>
         <p>{lib.address}</p>
-        {session?.user?.email && data && (
-          <LikeLibrary
-            prevData={data}
-            userId={session.user.email}
-            lib={{
-              name: lib.libName,
-              code: lib.libCode,
-              region,
-              userId: session.user.email,
-            }}
-          />
-        )}
+        <div className={styles.like}>
+          {session?.user?.email && data && (
+            <LikeLibrary
+              prevData={data}
+              userId={session.user.email}
+              lib={{
+                name: lib.libName,
+                code: lib.libCode,
+                region,
+                userId: session.user.email,
+              }}
+            />
+          )}
+        </div>
       </div>
     </Link>
   );

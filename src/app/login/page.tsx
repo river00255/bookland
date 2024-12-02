@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from '../_components/SnackbarProvider';
 import Link from 'next/link';
+import { useState } from 'react';
 
 type Inputs = {
   email: string;
@@ -17,6 +18,8 @@ const schema = z.object({
 });
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -29,8 +32,12 @@ const Login = () => {
   const { show } = useSnackbar();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
     const response = await sendMagicLink(data.email);
-    show(response.message);
+    if (response) {
+      setLoading(false);
+      show(response.message);
+    }
   };
 
   return (
@@ -46,19 +53,21 @@ const Login = () => {
         {errors.email?.message && (
           <span className={styles.errorMessage}>{errors.email?.message}</span>
         )}
-        <button>로그인</button>
+        <button disabled={loading}>로그인</button>
       </form>
       <div className={styles.buttons}>
         <button
           onClick={() =>
-            signIn('google', { callbackUrl: 'http://localhost:3000' })
+            signIn('google', {
+              callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL as string,
+            })
           }>
           Google로 로그인
         </button>
         <button
           onClick={() =>
             signIn('kakao', {
-              callbackUrl: 'http://localhost:3000',
+              callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL as string,
               redirect: true,
             })
           }>

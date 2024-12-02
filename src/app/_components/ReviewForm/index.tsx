@@ -12,6 +12,7 @@ import { useSnackbar } from '../SnackbarProvider';
 
 const TinymceEditor = dynamic(() => import('../TinymceEditor'), {
   ssr: false,
+  loading: () => <div></div>,
 });
 
 const ReviewForm = ({

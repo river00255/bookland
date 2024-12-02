@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { verifyEmail } from '@/app/_service/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
+import Loading from '@/app/loading';
 
 type Inputs = {
   email: string;
@@ -40,7 +41,12 @@ const VerifyEmail = () => {
     if (token) verify(token);
   }, [token]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="container">
+        <Loading />
+      </div>
+    );
   return (
     <div className={styles.verify}>
       {result.message && (

@@ -35,7 +35,7 @@ const ReviewDetail = () => {
         <p>{new Date(data.createdAt).toLocaleDateString()}</p>
         <hr />
         <p style={{ color: '#bdbdbd' }}>{maskingEmail(data.userId)}</p>
-        <Viewer content={data.review} />
+        <Viewer content={data.review} style={{ marginTop: '12px' }} />
       </div>
       {session?.user?.email === data.userId && (
         <button onClick={() => router.push(`../review/edit?id=${id}`)}>

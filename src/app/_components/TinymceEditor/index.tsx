@@ -3,6 +3,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { ChangeEvent, MutableRefObject } from 'react';
 import imageCompression from 'browser-image-compression';
+import { uploadImageFile } from '@/app/_service/upload';
 
 const compressOptions = {
   maxSizeMB: 1,
@@ -42,12 +43,15 @@ const TinymceEditor = ({
         if (file) {
           const compressedImage = await compressImage(file);
           if (compressedImage) {
-            const url = URL.createObjectURL(compressedImage);
-            return callback(url, { alt: file.name });
+            const result = await uploadImageFile(compressedImage);
+            if (result && result.url) {
+              return callback(result.url, { alt: result.name });
+            } else {
+              console.error('Failed to get image URL from the upload result');
+            }
           }
         }
       });
-      return callback('', { alt: '' });
     }
   };
 

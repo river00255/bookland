@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { sendEmail } from '../_service/auth';
 import { useSnackbar } from '../_components/SnackbarProvider';
+import { useState } from 'react';
 
 const schema = z.object({
   email: z.string().email({ message: '유효한 이메일 주소를 입력해주세요.' }),
@@ -19,6 +20,8 @@ type Inputs = {
 };
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -31,8 +34,12 @@ const Register = () => {
   const { show } = useSnackbar();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
     const response = await sendEmail(data.email);
-    show(response.message);
+    if (response) {
+      setLoading(false);
+      show(response.message);
+    }
   };
 
   return (
@@ -59,7 +66,7 @@ const Register = () => {
             {errors.username?.message}
           </span>
         )}
-        <button>가입하기</button>
+        <button disabled={loading}>가입하기</button>
       </form>
     </div>
   );

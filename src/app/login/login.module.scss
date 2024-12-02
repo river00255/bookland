@@ -30,6 +30,9 @@
     padding: 12px 0;
     border-radius: 4px;
     margin: 32px 0 20px 0;
+    &:disabled {
+      background: #f8fafc;
+    }
   }
 }
 .message {
