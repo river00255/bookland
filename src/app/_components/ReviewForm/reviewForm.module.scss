@@ -12,11 +12,19 @@
     }
     input {
       border: none;
-      border-bottom: 2px solid #e2e8f0;
+      border-bottom: 2px solid var(--main-slate);
       padding: 5px;
       flex: 2;
       &:focus {
         outline: none;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    > span {
+      flex-direction: column;
+      label {
+        margin: 8px 0 4px 0;
       }
     }
   }

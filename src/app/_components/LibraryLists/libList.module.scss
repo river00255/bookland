@@ -6,7 +6,7 @@
     flex: 2;
   }
   select {
-    border: 1px solid #94a3b8;
+    border: 1px solid var(--main-slate-deep);
     border-radius: 4px;
     padding: 3px 20px;
     margin: 0 0 0 20px;
@@ -22,7 +22,7 @@
   display: flex;
   align-items: center;
   margin: 24px 0;
-  border-bottom: 2px solid #94a3b8;
+  border-bottom: 2px solid var(--main-slate-deep);
   padding: 4px 5px;
   span {
     flex: 2;
@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--main-slate);
   border-radius: 4px;
   padding: 7px 8px;
   margin: 0 0 8px 0;

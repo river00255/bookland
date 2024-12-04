@@ -38,15 +38,15 @@ export const POST = async (request: Request) => {
   );
 
   const mailOption = {
-    from: `"Hello! 👻" <${process.env.EMAIL_FROM}>`,
+    from: `"bookland" <${process.env.EMAIL_FROM}>`,
     to: data.email,
-    subject: '[Bookland] Verify your email ✔',
+    subject: '[Bookland] 로그인 ✔',
     html: `<div>
-      <p>Hello!</p>
-      <p>${data.email} 🥳</p>
-      <p>Into the Bookland.</p>
+      <h4>로그인하고 Bookland를 이용하세요.</h4>
+      <p>${data.email}님</p>
+      <p>클릭하면 로그인 페이지로 이동합니다.</p>
       <button style="padding: 4px 32px; background: #e2e8f0; border: none;">
-        <a href=${`${request.headers.get('origin')}/account/verify?token=${token}`} target="_blank" style="text-decoration: none; color: #444;">Signin</a>
+        <a href=${`${request.headers.get('origin')}/account/verify?token=${token}`} target="_blank" style="text-decoration: none; color: #444;">로그인</a>
       </button>
     </div>`,
   };

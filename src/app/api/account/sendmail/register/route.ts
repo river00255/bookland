@@ -9,13 +9,14 @@ export const POST = async (request: NextRequest) => {
   try {
     if (!token) throw new Error('Invalid token.');
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-    const { email } = decoded as JwtPayload;
+    const { email, username } = decoded as JwtPayload;
     if (!email) throw new Error('Invalid email.');
 
     const newUser = await prisma.user.create({
       data: {
         email: email,
         provider: 'email',
+        username,
       },
     });
 

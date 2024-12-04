@@ -25,7 +25,6 @@ const LibItem = ({ item, isbn }: { item: FavoriteLib; isbn: string }) => {
     queryKey: LibKeys.loan(item.code, isbn),
     queryFn: () => getLoanStatus({ libCode: item.code, isbn }),
   });
-  // console.log(loan);
 
   return (
     <div className={styles.lib}>

@@ -35,7 +35,10 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    const response = await sendEmail(data.email);
+    const response = await sendEmail({
+      email: data.email,
+      username: data.username,
+    });
     if (response) {
       setLoading(false);
       show(response.message);
@@ -43,31 +46,33 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.register}>
-      <h4>회원가입</h4>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <label>이메일</label>
-        <input
-          type="text"
-          {...register('email')}
-          placeholder="이메일을 입력해주세요."
-        />
-        {errors.email?.message && (
-          <span className={styles.errorMessage}>{errors.email?.message}</span>
-        )}
-        <label>이 름</label>
-        <input
-          type="text"
-          {...register('username')}
-          placeholder="이름을 입력해주세요."
-        />
-        {errors.username?.message && (
-          <span className={styles.errorMessage}>
-            {errors.username?.message}
-          </span>
-        )}
-        <button disabled={loading}>가입하기</button>
-      </form>
+    <div className="container">
+      <div className={styles.register}>
+        <h4>회원가입</h4>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <label>이메일</label>
+          <input
+            type="text"
+            {...register('email')}
+            placeholder="이메일을 입력해주세요."
+          />
+          {errors.email?.message && (
+            <span className={styles.errorMessage}>{errors.email?.message}</span>
+          )}
+          <label>이 름</label>
+          <input
+            type="text"
+            {...register('username')}
+            placeholder="이름을 입력해주세요."
+          />
+          {errors.username?.message && (
+            <span className={styles.errorMessage}>
+              {errors.username?.message}
+            </span>
+          )}
+          <button disabled={loading}>가입하기</button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -7,16 +7,20 @@ import Link from 'next/link';
 
 const ReviewByBook = ({ isbn }: { isbn: string }) => {
   const { data } = useQuery(reviewQueries.byBook({ isbn }));
-  // console.log(data);
 
   return (
     <div className={styles.reviews}>
+      {data?.length < 1 && <p>작성된 리뷰가 없습니다.</p>}
       {data?.map((item: BookReview) => (
-        <div key={item.id} className={styles.reviewItem}>
-          <Link href={`../review/${item.id}`}>
-            <Viewer content={`${item.review.slice(0, 85)}...`} />
-          </Link>
-        </div>
+        <Link
+          href={`../review/${item.id}`}
+          key={item.id}
+          className={styles.reviewItem}>
+          <Viewer
+            content={`${item.review.slice(0, 72)}...`}
+            style={{ fontSize: '15px' }}
+          />
+        </Link>
       ))}
     </div>
   );

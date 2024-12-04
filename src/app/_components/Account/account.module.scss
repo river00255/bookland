@@ -5,9 +5,19 @@
     margin: 0 0 0 16px;
   }
   button {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--main-slate);
     border-radius: 4px;
     padding: 8px 16px;
     font-size: 14px;
+  }
+  @media (max-width: 768px) {
+    margin: 8px 8px 0 16px;
+    > li {
+      margin: 0;
+    }
+    button {
+      padding: 7px 12px;
+      margin: 0 0 0 10px;
+    }
   }
 }

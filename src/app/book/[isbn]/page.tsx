@@ -7,13 +7,11 @@ import BookDetail from '@/app/_components/BookDetail';
 
 const Book = () => {
   const { isbn } = useParams();
-  // console.log(params);
 
   const { data } = useQuery({
     queryKey: StoreKeys.bookDetail(String(isbn)),
     queryFn: () => getBookDetail({ isbn: String(isbn) }),
   });
-  // console.log(data);
 
   return (
     <div className="container">

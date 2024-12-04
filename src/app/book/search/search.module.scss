@@ -1,8 +1,14 @@
+.search {
+  padding: 0 16px;
+}
 .form {
   width: calc(100% - 16px);
   display: flex;
   justify-content: center;
   padding: 40px 0;
+  @media (max-width: 768px) {
+    padding: 40px 16px;
+  }
 }
 .list {
   min-height: 70dvh;

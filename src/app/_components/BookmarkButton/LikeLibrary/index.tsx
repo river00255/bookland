@@ -1,7 +1,7 @@
-import { dislikeLib, getFavoriteLib, likeLib } from '@/app/_service/bookmark';
+import { dislikeLib, likeLib } from '@/app/_service/bookmark';
 import { BookmarkKeys } from '@/app/_service/keys';
 import { FavoriteLib } from '@/app/type';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const LikeLibrary = <T,>({
   prevData,
@@ -88,7 +88,6 @@ const LikeLibrary = <T,>({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            // arg && callback && callback(arg);
             dislike({
               code: lib.code,
               email: userId,
@@ -108,7 +107,6 @@ const LikeLibrary = <T,>({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            // arg && callback && callback(arg);
             like({
               name: lib.name,
               code: lib.code,

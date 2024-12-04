@@ -16,7 +16,6 @@ const LibraryDetail = () => {
   });
 
   const lib = data?.libs[0]?.lib?.libInfo;
-  // console.log(lib);
 
   if (!data) return <div className={styles.detail}></div>;
   return (

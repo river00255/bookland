@@ -70,7 +70,10 @@ const MyPage = () => {
           </div>
         ) : (
           data?.bookmark?.book?.map((item: FavoriteBook) => (
-            <Link href={`../book/${item.isbn}`} key={item.isbn}>
+            <Link
+              href={`../book/${item.isbn}`}
+              key={item.isbn}
+              className={styles.item}>
               <div>
                 <p>{item.name}</p>
               </div>
@@ -82,12 +85,16 @@ const MyPage = () => {
         <Modal isOpen={popup} close={() => closeModal()}>
           <div className={styles.reviews}>
             <h4>독서 후기</h4>
-            {reviews &&
-              reviews.review.map((review: BookReview) => (
-                <div key={review.id}>
-                  <Link href={`../review/${review.id}`}>{review.title}</Link>
-                </div>
-              ))}
+            <ul>
+              {reviews &&
+                reviews.review.map((review: BookReview) => (
+                  <li key={review.id}>
+                    <Link href={`../review/${review.id}`}>
+                      <p>{review.title}</p>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
           </div>
         </Modal>
       )}

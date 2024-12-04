@@ -23,7 +23,6 @@ const getVisibelEdgeItems = (
 const Slider = ({ list }: { list: string[] }) => {
   const listRef = useRef<HTMLUListElement>(null);
   const itemRef = useRef<HTMLLIElement[] | null[]>([]);
-  // console.log(list);
 
   const move = useCallback((direction: 'prev' | 'next') => {
     if (!listRef.current || !itemRef.current) return;

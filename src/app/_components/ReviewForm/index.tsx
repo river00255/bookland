@@ -24,7 +24,6 @@ const ReviewForm = ({
     | Pick<BookReview, 'title' | 'author' | 'isbn' | 'publisher'>
     | BookReview;
 }) => {
-  // const inputRef = useRef<(HTMLInputElement | null)[]>([]);
   const editorRef = useRef<TinyMCEEditor | null>(null);
   const [isPublic, setIsPublic] = useState(true);
 
@@ -49,6 +48,7 @@ const ReviewForm = ({
       queryClient.invalidateQueries({
         queryKey: ReviewKeys.all,
       });
+      show('독서 후기가 작성되었습니다.');
       router.push('../review');
     },
   });
@@ -76,13 +76,14 @@ const ReviewForm = ({
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    // const title = inputRef.current[0]?.value;
-    // const author = inputRef.current[1]?.value;
     if (!item.isbn || !editorRef.current) return;
+    if (editorRef.current.getContent({ format: 'text' }).length < 1) {
+      show('내용을 입력하세요.');
+      return;
+    }
     const content = editorRef.current.getContent();
 
     if (isExistField('createdAt', item)) {
-      console.log('update');
       if (userId !== (item as BookReview).userId) return;
       return edit({
         ...(item as BookReview),
@@ -109,9 +110,6 @@ const ReviewForm = ({
           name="title"
           value={item.title || ''}
           readOnly
-          // ref={(el) => {
-          //   inputRef.current[0] = el;
-          // }}
         />
       </span>
       <span>
@@ -122,9 +120,6 @@ const ReviewForm = ({
           name="author"
           value={item.author || ''}
           readOnly
-          // ref={(el) => {
-          //   inputRef.current[1] = el;
-          // }}
         />
       </span>
       <br />

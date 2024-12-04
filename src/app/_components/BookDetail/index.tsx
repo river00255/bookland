@@ -46,8 +46,9 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
           <Image src={item.cover} alt={item.title} width={200} height={293} />
         </div>
         <div className={styles.title}>
-          <p>{item.categoryName}</p>
+          <p className={styles.category}>{item.categoryName}</p>
           <h4>{item.title}</h4>
+          <hr />
           <span>
             {userId && (
               <button onClick={() => moveReviewForm(item)}>
@@ -72,25 +73,17 @@ const BookDetail = ({ item }: { item: StoreBookItem }) => {
         </div>
       </div>
       <div className={styles.moreInfo}>
-        {
-          item.subInfo.cardReviewImgList && (
-            <Slider list={item.subInfo.cardReviewImgList} />
-          )
-          // item.subInfo.cardReviewImgList.map((card, i) => (
-          //   <Image
-          //     src={card}
-          //     alt={String(i)}
-          //     width={400}
-          //     height={400}
-          //     key={i}
-          //   />
-          // ))
-        }
+        {item.subInfo.cardReviewImgList && (
+          <Slider list={item.subInfo.cardReviewImgList} />
+        )}
       </div>
       <div className={styles.moreInfo}>
         {userId && <FavoriteLibraryByBook email={userId} isbn={item.isbn13} />}
       </div>
-      <ReviewByBook isbn={item.isbn13} />
+      <div className={styles.moreInfo}>
+        <h4>리 뷰</h4>
+        <ReviewByBook isbn={item.isbn13} />
+      </div>
     </div>
   );
 };

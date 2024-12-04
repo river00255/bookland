@@ -1,26 +1,46 @@
 .mypage {
-  max-width: 760px;
-  min-height: 70dvh;
+  max-width: 768px;
   margin: 0 auto;
   padding: 48px 16px;
 }
 .content {
-  margin: 32px 0;
+  margin: 32px 0 40px 0;
   h4 {
-    margin: 0 0 10px 0;
-    border-left: 3px solid #94a3b8;
+    margin: 0 0 16px 0;
+    border-left: 3px solid var(--main-slate-deep);
     padding: 0 0 0 8px;
   }
   > button {
-    border: 2px solid #94a3b8;
+    border: 2px solid var(--main-slate-deep);
     border-radius: 4px;
     padding: 12px 24px;
     &:hover {
-      background: #f8fafc;
+      background: var(--main-slate-light);
     }
   }
 }
 .reviews {
   width: 640px;
   min-height: 50dvh;
+  ul {
+    margin: 16px 0;
+    list-style: circle;
+    li {
+      margin: 8px 0;
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-thickness: 0.5px;
+      }
+    }
+  }
+}
+.item {
+  display: block;
+  margin: 8px 0;
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 0.5px;
+  }
 }

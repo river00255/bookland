@@ -13,16 +13,21 @@ import { useSession } from 'next-auth/react';
 import LibraryPreview from '../LibraryPreview';
 import { getFavoriteLibList } from '@/app/_service/bookmark';
 import FavoriteLibrary from '../FavoriteLibrary';
-import usePagination from '@/app/_hooks/usePagination';
 import Loading from '@/app/loading';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const pageSize = 20;
 const pageableCount = 10;
 
 const LibraryLists = () => {
+  const router = useRouter();
+  const currentSearchParams = useSearchParams();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageBlock, setCurrentPageBlock] = useState(0);
-  const [region, setRegion] = useState(11);
+  const [region, setRegion] = useState(
+    Number(currentSearchParams.get('region')) || 11
+  );
 
   const { data: session } = useSession();
 
@@ -38,17 +43,14 @@ const LibraryLists = () => {
     queryFn: () => getFavoriteLibList(String(session?.user?.email)),
     enabled: !!session,
   });
-  // console.log(favoriteLibs);
 
-  const { moveToFirst } = usePagination({
-    currentPage,
-    setCurrentPage,
-    currentPageBlock,
-    setCurrentPageBlock,
-    pageLimit: pageableCount,
-    pageSize,
-    totalCount: data ? data.numFound : 0,
-  });
+  const setSearchParams = (region: number) => {
+    const searchParams = new URLSearchParams(currentSearchParams.toString());
+    searchParams.set('region', String(region));
+    searchParams.set('page', '1');
+    searchParams.set('block', '0');
+    router.push(`library?${searchParams.toString()}`);
+  };
 
   return (
     <div>
@@ -61,17 +63,13 @@ const LibraryLists = () => {
         )}
         {data && <p>{data.numFound} 곳</p>}
         <select
+          defaultValue={currentSearchParams.get('region') || region}
           onChange={(e) => {
             setRegion(Number(e.target.value));
-            // setCurrentPage(1);
-            // setCurrentPageBlock(0);
-            moveToFirst();
+            setSearchParams(Number(e.target.value));
           }}>
           {regions.map((region) => (
-            <option
-              key={region.code}
-              value={region.code}
-              defaultValue={String(region)}>
+            <option key={region.code} value={region.code}>
               {region.name}
             </option>
           ))}
@@ -98,7 +96,6 @@ const LibraryLists = () => {
           pageLimit={pageableCount}
           totalCount={data.numFound}
           pageSize={pageSize}
-          // totalPage={Math.ceil(data.numFound / pageSize)}
         />
       )}
       {popup && (

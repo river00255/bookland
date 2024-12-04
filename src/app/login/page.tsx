@@ -41,42 +41,46 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.login}>
-      <h4>이메일로 로그인</h4>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <label>이메일</label>
-        <input
-          type="text"
-          {...register('email')}
-          placeholder="이메일을 입력해주세요."
-        />
-        {errors.email?.message && (
-          <span className={styles.errorMessage}>{errors.email?.message}</span>
-        )}
-        <button disabled={loading}>로그인</button>
-      </form>
-      <div className={styles.buttons}>
-        <button
-          onClick={() =>
-            signIn('google', {
-              callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL as string,
-            })
-          }>
-          Google로 로그인
-        </button>
-        <button
-          onClick={() =>
-            signIn('kakao', {
-              callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL as string,
-              redirect: true,
-            })
-          }>
-          Kakao로 로그인
-        </button>
+    <div className="container">
+      <div className={styles.login}>
+        <h4>이메일로 로그인</h4>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <label>이메일</label>
+          <input
+            type="text"
+            {...register('email')}
+            placeholder="이메일을 입력해주세요."
+          />
+          {errors.email?.message && (
+            <span className={styles.errorMessage}>{errors.email?.message}</span>
+          )}
+          <button disabled={loading}>로그인</button>
+        </form>
+        <div className={styles.buttons}>
+          <button
+            onClick={() =>
+              signIn('google', {
+                callbackUrl: process.env
+                  .NEXT_PUBLIC_AUTH_CALLBACK_URL as string,
+              })
+            }>
+            Google로 로그인
+          </button>
+          <button
+            onClick={() =>
+              signIn('kakao', {
+                callbackUrl: process.env
+                  .NEXT_PUBLIC_AUTH_CALLBACK_URL as string,
+                redirect: true,
+              })
+            }>
+            Kakao로 로그인
+          </button>
+        </div>
+        <Link href={'../account'} className={styles.register}>
+          <p>회원가입 👋</p>
+        </Link>
       </div>
-      <Link href={'../account'}>
-        <p>회원가입 👋</p>
-      </Link>
     </div>
   );
 };

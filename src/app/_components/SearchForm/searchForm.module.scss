@@ -11,7 +11,7 @@
   }
   select,
   input {
-    border: 1px solid #94a3b8;
+    border: 1px solid var(--main-slate-deep);
     border-radius: 4px;
   }
   select {
@@ -28,8 +28,18 @@
   }
   button {
     padding: 7px 32px;
-    background: #94a3b8;
+    background: var(--main-slate-deep);
     color: #f2f2f2;
     border-radius: 2px;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    > div {
+      margin: 0;
+    }
+    button {
+      margin: 10px 0;
+      padding: 8px 0;
+    }
   }
 }

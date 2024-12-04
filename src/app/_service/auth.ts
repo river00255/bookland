@@ -7,10 +7,16 @@ const sendMagicLink = async (email: string) => {
   return await response.json();
 };
 
-const sendEmail = async (email: string) => {
+const sendEmail = async ({
+  email,
+  username,
+}: {
+  email: string;
+  username: string;
+}) => {
   const response = await fetch(`/api/account/sendmail`, {
     method: 'POST',
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email, username }),
     headers: { 'Content-Type': 'application/json' },
   });
   return await response.json();

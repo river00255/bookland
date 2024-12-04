@@ -33,7 +33,7 @@ const Search = () => {
   });
 
   return (
-    <div className="container">
+    <div className={`container ${styles.search}`}>
       <div className={styles.form}>
         <SearchForm />
       </div>

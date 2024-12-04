@@ -19,8 +19,9 @@ const Review = () => {
   const { data } = useQuery(reviewQueries.getList({ cursor }));
 
   return (
-    <>
-      <div className={`container ${styles.list}`}>
+    <div className={`container ${styles.review}`}>
+      <h3>리 뷰</h3>
+      <div className={styles.list}>
         {data?.totalCount < 1 && (
           <div>
             <p>아직 작성된 독서 후기가 없습니다.</p>
@@ -48,7 +49,7 @@ const Review = () => {
           setCursor={setCursor}
         />
       )}
-    </>
+    </div>
   );
 };
 

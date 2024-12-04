@@ -1,5 +1,5 @@
 .title {
-  border-left: 4px solid #94a3b8;
+  border-left: 4px solid var(--main-slate-deep);
   padding-left: 16px;
   margin: 56px 0 24px 0;
   p {
@@ -11,5 +11,4 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
 }

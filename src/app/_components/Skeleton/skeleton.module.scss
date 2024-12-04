@@ -5,11 +5,11 @@
   flex-wrap: wrap;
 }
 .item {
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--main-slate);
   padding: 10px 16px;
   margin: 16px;
-  width: 160px;
-  height: 200px;
+  width: 180px;
+  height: 220px;
   > div {
     width: 80%;
     margin: 10px auto;

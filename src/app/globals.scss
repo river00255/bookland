@@ -1,13 +1,14 @@
-$green: '#86efac';
-$green-deep: '#22c55e';
-$green-light: '#dcfce7';
-$slate: '#e2e8f0';
-$slate-deep: '#94a3b8';
-$slate-light: '#f8fafc';
+$green: #86efac;
+$green-deep: #22c55e;
+$green-light: #dcfce7;
+$slate: #e2e8f0;
+$slate-deep: #94a3b8;
+$slate-light: #f8fafc;
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 960px;
+  min-height: calc(100dvh - 80px);
   margin: 0 auto;
 }
 p {
@@ -19,10 +20,10 @@ strong {
 
 .error {
   width: 100%;
-  border: 1px solid #e2e8f0;
+  border: 1px solid $slate;
   padding: 20px;
   button {
-    background: #e2e8f0;
+    background: $slate;
     padding: 2px 20px;
     margin: 10px 0 0 0;
   }

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px;
+  max-width: 400px;
   margin: 32px auto;
   padding: 40px 16px;
 }
@@ -10,12 +10,12 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  color: #94a3b8;
+  color: var(--main-slate-deep);
   label {
     margin: 24px 0 5px 0;
   }
   input {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--main-slate);
     padding: 12px 10px;
     border-radius: 4px;
     margin: 4px 0;
@@ -25,12 +25,12 @@
     }
   }
   button {
-    background: #e2e8f0;
+    background: var(--main-slate);
     padding: 12px 0;
     border-radius: 4px;
     margin: 32px 0 20px 0;
     &:disabled {
-      background: #f8fafc;
+      background: var(--main-slate-light);
     }
   }
 }
