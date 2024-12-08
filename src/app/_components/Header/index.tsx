@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './header.module.scss';
 import Account from '../Account';
+import Navigation from '../Navigation';
 
 const Header = () => {
   return (
@@ -10,17 +11,7 @@ const Header = () => {
           <h1>
             <Link href="/">Bookland</Link>
           </h1>
-          <ul>
-            <li>
-              <Link href={'/book/search'}>도서검색</Link>
-            </li>
-            <li>
-              <Link href={'/library'}>도서관목록</Link>
-            </li>
-            <li>
-              <Link href={'/review'}>독자후기</Link>
-            </li>
-          </ul>
+          <Navigation />
         </div>
         <Account />
       </nav>

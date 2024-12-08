@@ -1,0 +1,23 @@
+.nav {
+  display: flex;
+  > li {
+    margin-left: 24px;
+  }
+  @media (max-width: 768px) {
+    margin: 8px 0;
+  }
+}
+.active {
+  position: relative;
+  &::before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -2px;
+    width: 4px;
+    height: 4px;
+    background: #737373;
+    border-radius: 50%;
+  }
+}
