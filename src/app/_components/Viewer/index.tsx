@@ -11,6 +11,7 @@ const Viewer = ({
     <div
       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
       {...props}
+      style={{ color: '#525252' }}
     />
   );
 };

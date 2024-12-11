@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { reviewQueries } from '../_service/review';
 import useModal from '../_hooks/useModal';
 import Modal from '../_components/Modal';
+import Loading from '../loading';
 
 const MyPage = () => {
   const { data: session, status } = useSession();
@@ -25,24 +26,29 @@ const MyPage = () => {
     queryFn: () => getBookmarkList(String(email)),
     enabled: !!session,
   });
-  // console.log(data);
 
   const { data: reviews } = useQuery(
     reviewQueries.byUser({ userId: String(email), offset: 0 })
   );
-  // console.log(reviews);
 
-  if (status === 'loading') return <div className="container">Loading...</div>;
+  if (status === 'loading')
+    return (
+      <div className={`container ${styles.mypage}`}>
+        <Loading />
+      </div>
+    );
   if (status === 'unauthenticated')
     return (
-      <div className="container">
-        <button onClick={() => router.replace('/')}>Go Home</button>
+      <div className={`container ${styles.mypage}`}>
+        <button onClick={() => router.replace('/')} className={styles.wrapper}>
+          Go Home
+        </button>
       </div>
     );
   return (
     <div className={`container ${styles.mypage}`}>
       <p>{session?.user?.email} 님</p>
-      <div className={styles.content}>
+      <div className={styles.wrapper}>
         <button onClick={() => openModal()}>나의 독서후기</button>
       </div>
       <div className={styles.content}>

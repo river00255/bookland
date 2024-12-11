@@ -27,6 +27,7 @@ const authOptions = {
         const user = await prisma.user.findUnique({
           where: {
             email,
+            provider: 'email',
           },
         });
 
@@ -42,23 +43,42 @@ const authOptions = {
     async signIn({ user, account }: any) {
       if (!user) throw new Error('SignIn Error');
 
+      const provider =
+        account.provider === 'credentials' ? 'email' : account.provider;
+
       const findUser = await prisma.user.findUnique({
         where: {
           email: user.email,
+          provider,
         },
       });
 
-      if (!findUser) {
-        const newUser = await prisma.user.create({
-          data: {
+      if (findUser) {
+        return true;
+      } else if (
+        !findUser &&
+        (account.provider === 'google' || account.provider === 'kakao')
+      ) {
+        const found = await prisma.user.findUnique({
+          where: {
             email: user.email,
-            provider: account.provider,
+            provider: 'email',
           },
         });
+
+        if (!found) {
+          const newUser = await prisma.user.create({
+            data: {
+              email: user.email,
+              provider: account.provider,
+            },
+          });
+
+          return true;
+        }
       }
-      // if (account.provider === 'google') {
-      // }
-      return true;
+
+      return false;
     },
     // async session({ session, user, token }: any) {
     //   return session;

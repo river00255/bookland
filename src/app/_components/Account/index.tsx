@@ -15,7 +15,12 @@ const Account = () => {
             <Link href={'../mypage'}>마이페이지</Link>
           </li>
           <li>
-            <button onClick={() => signOut()}>로그아웃</button>
+            <button
+              onClick={() => {
+                signOut({ callbackUrl: '/' });
+              }}>
+              로그아웃
+            </button>
           </li>
         </>
       ) : (

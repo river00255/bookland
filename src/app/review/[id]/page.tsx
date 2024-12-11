@@ -38,7 +38,9 @@ const ReviewDetail = () => {
         <Viewer content={data.review} style={{ marginTop: '12px' }} />
       </div>
       {session?.user?.email === data.userId && (
-        <button onClick={() => router.push(`../review/edit?id=${id}`)}>
+        <button
+          onClick={() => router.push(`../review/edit?id=${id}`)}
+          className={styles.editButton}>
           수정
         </button>
       )}

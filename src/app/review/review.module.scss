@@ -16,4 +16,7 @@
   border-left: 0;
   border-right: 0;
   padding: 8px 16px;
+  > p:last-of-type {
+    font-size: 13px;
+  }
 }
