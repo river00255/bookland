@@ -1,12 +1,14 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
-const bucket = process.env.AWS_BUCKET as string;
+const bucket = process.env.SUPABASE_BUCKET as string;
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION as string,
+  forcePathStyle: true,
+  region: process.env.SUPABASE_REGION as string,
+  endpoint: process.env.SUPABASE_ENDPOINT as string,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+    accessKeyId: process.env.SUPABASE_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.SUPABASE_SECRET_ACCESS_KEY as string,
   },
 });
 
@@ -29,7 +31,7 @@ export const POST = async (request: Request) => {
     await s3.send(new PutObjectCommand(uploadParams));
 
     return Response.json({
-      url: `https://${bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/review/${name}`,
+      url: `https://${process.env.SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/${bucket}/review/${name}`,
       name,
     });
   } catch (e) {
